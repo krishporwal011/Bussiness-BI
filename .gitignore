@@ -1,0 +1,29 @@
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+venv/
+
+# Local source data and generated bulk extracts
+data/raw/*
+!data/raw/.gitkeep
+data/derived/*
+!data/derived/.gitkeep
+data/cleaned/*.csv
+data/cleaned/*.json
+outputs/python_pair_metrics.csv
+outputs/python_item_frequency.csv
+outputs/*.json
+
+# Oracle exports and local dashboard files
+oracle_exports/
+*.dmp
+*.log
+*.pbix
+*.pbit
+
+# OS/editor
+.DS_Store
+.idea/
+.vscode/

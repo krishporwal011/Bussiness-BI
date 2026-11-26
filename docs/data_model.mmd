@@ -1,0 +1,57 @@
+erDiagram
+    STG_TRANSACTION_LINE {
+        NUMBER stg_row_id PK
+        NUMBER source_row_number
+        VARCHAR2 invoice_id
+        VARCHAR2 item_key
+        VARCHAR2 item_name
+        NUMBER quantity
+        TIMESTAMP transaction_date
+        NUMBER unit_price
+        VARCHAR2 customer_id
+        VARCHAR2 country
+        VARCHAR2 exclusion_reason
+    }
+    DIM_PRODUCT {
+        VARCHAR2 item_key PK
+        VARCHAR2 item_name
+    }
+    DIM_CUSTOMER {
+        VARCHAR2 customer_key PK
+    }
+    DIM_DATE {
+        NUMBER date_key PK
+        DATE calendar_date UK
+        NUMBER calendar_year
+        NUMBER calendar_month
+    }
+    FACT_TRANSACTION {
+        VARCHAR2 basket_id PK
+        TIMESTAMP transaction_date FK
+        VARCHAR2 customer_key FK
+        VARCHAR2 country
+    }
+    FACT_BASKET_ITEM {
+        VARCHAR2 basket_id PK,FK
+        VARCHAR2 item_key PK,FK
+        NUMBER quantity
+        NUMBER revenue
+        NUMBER line_count
+    }
+    VW_ITEM_PAIR_METRICS {
+        VARCHAR2 item_a_key FK
+        VARCHAR2 item_b_key FK
+        NUMBER pair_count
+        NUMBER basket_count
+        NUMBER support
+        NUMBER confidence_a_to_b
+        NUMBER confidence_b_to_a
+        NUMBER lift
+    }
+    STG_TRANSACTION_LINE ||--o{ FACT_TRANSACTION : "cleans to basket"
+    DIM_CUSTOMER ||--o{ FACT_TRANSACTION : "customer_key"
+    FACT_TRANSACTION ||--o{ FACT_BASKET_ITEM : "basket_id"
+    DIM_PRODUCT ||--o{ FACT_BASKET_ITEM : "item_key"
+    DIM_DATE ||--o{ FACT_TRANSACTION : "transaction date"
+    FACT_BASKET_ITEM ||--o{ VW_ITEM_PAIR_METRICS : "self-join by basket"
+

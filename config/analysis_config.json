@@ -1,0 +1,12 @@
+{
+  "min_item_frequency": 5,
+  "min_pair_count": 20,
+  "min_support": 0.001,
+  "min_confidence": 0.0,
+  "top_n": 10,
+  "include_canceled_returns": false,
+  "dataset_filter": "All valid merchandise baskets from UCI Online Retail",
+  "currency": "GBP",
+  "source_url": "https://archive.ics.uci.edu/dataset/352/online%2Bretail",
+  "download_date": "2026-11-26"
+}

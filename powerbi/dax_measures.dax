@@ -1,0 +1,44 @@
+-- Measures for the imported tables in powerbi/README.md.
+
+Basket Count = DISTINCTCOUNT ( BasketSummary[basket_id] )
+
+Distinct Item Count = DISTINCTCOUNT ( FactBasketItem[item_key] )
+
+Total Item Lines = COUNTROWS ( FactBasketItem )
+
+Average Basket Size = DIVIDE ( [Total Item Lines], [Basket Count] )
+
+Single-Item Basket Percentage =
+DIVIDE (
+    CALCULATE ( DISTINCTCOUNT ( BasketSummary[basket_id] ), BasketSummary[is_single_item] = 1 ),
+    [Basket Count]
+)
+
+Pair Count = MAX ( PairMetrics[pair_count] )
+
+Support = MAX ( PairMetrics[support] )
+
+Confidence A to B = MAX ( PairMetrics[confidence_a_to_b] )
+
+Confidence B to A = MAX ( PairMetrics[confidence_b_to_a] )
+
+Lift = MAX ( PairMetrics[lift] )
+
+Top Pair by Count =
+VAR TopPair =
+    TOPN ( 1, ALL ( PairMetrics ), PairMetrics[pair_count], DESC, PairMetrics[lift], DESC )
+RETURN
+    CONCATENATEX ( TopPair, PairMetrics[item_a_name] & " + " & PairMetrics[item_b_name], ", " )
+
+Top Pair by Lift =
+VAR TopPair =
+    TOPN ( 1, ALL ( PairMetrics ), PairMetrics[lift], DESC, PairMetrics[pair_count], DESC )
+RETURN
+    CONCATENATEX ( TopPair, PairMetrics[item_a_name] & " + " & PairMetrics[item_b_name], ", " )
+
+Item Support = DIVIDE ( DISTINCTCOUNT ( FactBasketItem[basket_id] ), [Basket Count] )
+
+Total Quantity = SUM ( FactBasketItem[quantity] )
+
+Total Revenue = SUM ( FactBasketItem[revenue] )
+

@@ -1,0 +1,2 @@
+status,reason,python_file,sql_file
+PENDING,Oracle export not supplied; sqlplus/sqlcl was not available in the build environment.,outputs/python_pair_metrics.csv,

@@ -1,0 +1,84 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="820" viewBox="0 0 1400 820" role="img" aria-labelledby="title desc">
+  <title id="title">Market Basket Analysis data model</title>
+  <desc id="desc">Flow from normalized staging to transaction and basket-item facts, dimensions, and unordered pair metrics.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#475569"/>
+    </marker>
+    <style>
+      .title { font: 700 28px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; fill:#0f172a; }
+      .subtitle { font: 400 15px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; fill:#475569; }
+      .box-title { font: 700 16px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; fill:#0f172a; }
+      .body { font: 400 13px ui-monospace,SFMono-Regular,Menlo,monospace; fill:#334155; }
+      .fact { fill:#e0f2fe; stroke:#0284c7; stroke-width:2; }
+      .dim { fill:#ecfdf5; stroke:#059669; stroke-width:2; }
+      .stage { fill:#fff7ed; stroke:#ea580c; stroke-width:2; }
+      .view { fill:#f5f3ff; stroke:#7c3aed; stroke-width:2; }
+      .flow { stroke:#475569; stroke-width:2.5; fill:none; marker-end:url(#arrow); }
+      .note { font: 600 12px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; fill:#64748b; }
+    </style>
+  </defs>
+  <rect width="1400" height="820" fill="#ffffff"/>
+  <text x="48" y="52" class="title">Market Basket Analysis data model</text>
+  <text x="48" y="80" class="subtitle">Raw source → normalized staging → cleaned star model → unordered pair metrics</text>
+
+  <rect x="48" y="130" width="300" height="190" rx="12" class="stage"/>
+  <text x="68" y="158" class="box-title">STG_TRANSACTION_LINE</text>
+  <text x="68" y="184" class="body">stg_row_id PK</text>
+  <text x="68" y="204" class="body">source_row_number</text>
+  <text x="68" y="224" class="body">invoice_id, item_key</text>
+  <text x="68" y="244" class="body">quantity, unit_price</text>
+  <text x="68" y="264" class="body">transaction_date</text>
+  <text x="68" y="284" class="body">quality flags + reason</text>
+  <text x="68" y="306" class="note">source-line grain</text>
+
+  <rect x="450" y="120" width="300" height="180" rx="12" class="dim"/>
+  <text x="470" y="148" class="box-title">DIM_PRODUCT</text>
+  <text x="470" y="176" class="body">item_key PK</text>
+  <text x="470" y="196" class="body">item_name</text>
+  <text x="470" y="218" class="note">one row per normalized item</text>
+
+  <rect x="810" y="120" width="300" height="180" rx="12" class="dim"/>
+  <text x="830" y="148" class="box-title">DIM_CUSTOMER / DIM_DATE</text>
+  <text x="830" y="176" class="body">customer_key PK</text>
+  <text x="830" y="196" class="body">date_key PK</text>
+  <text x="830" y="216" class="body">calendar_date UK</text>
+  <text x="830" y="246" class="note">optional descriptive dimensions</text>
+
+  <rect x="450" y="390" width="300" height="190" rx="12" class="fact"/>
+  <text x="470" y="418" class="box-title">FACT_TRANSACTION</text>
+  <text x="470" y="446" class="body">basket_id PK</text>
+  <text x="470" y="466" class="body">transaction_date FK</text>
+  <text x="470" y="486" class="body">customer_key FK</text>
+  <text x="470" y="506" class="body">country</text>
+  <text x="470" y="548" class="note">one row per valid basket</text>
+
+  <rect x="810" y="390" width="300" height="210" rx="12" class="fact"/>
+  <text x="830" y="418" class="box-title">FACT_BASKET_ITEM</text>
+  <text x="830" y="446" class="body">basket_id PK, FK</text>
+  <text x="830" y="466" class="body">item_key PK, FK</text>
+  <text x="830" y="486" class="body">quantity, revenue</text>
+  <text x="830" y="506" class="body">line_count</text>
+  <text x="830" y="568" class="note">one distinct basket-item presence</text>
+
+  <rect x="1170" y="380" width="190" height="240" rx="12" class="view"/>
+  <text x="1190" y="408" class="box-title">PAIR METRICS</text>
+  <text x="1190" y="438" class="body">item_a_key</text>
+  <text x="1190" y="458" class="body">item_b_key</text>
+  <text x="1190" y="478" class="body">pair_count</text>
+  <text x="1190" y="498" class="body">support</text>
+  <text x="1190" y="518" class="body">confidence A→B</text>
+  <text x="1190" y="538" class="body">confidence B→A</text>
+  <text x="1190" y="558" class="body">lift</text>
+  <text x="1190" y="592" class="note">self-join, A &lt; B</text>
+
+  <path d="M348 225 C390 225 395 210 450 210" class="flow"/>
+  <path d="M198 322 C198 430 370 485 450 485" class="flow"/>
+  <path d="M600 300 L600 390" class="flow"/>
+  <path d="M750 485 L810 485" class="flow"/>
+  <path d="M960 300 L960 390" class="flow"/>
+  <path d="M1110 495 L1170 495" class="flow"/>
+
+  <text x="54" y="710" class="subtitle">Pair logic: deduplicate basket-item presence, self-join within basket, enforce item_a_key &lt; item_b_key, count distinct baskets.</text>
+  <text x="54" y="738" class="subtitle">Quantity and revenue are preserved for business reporting but never used to create repeated association presence.</text>
+</svg>
