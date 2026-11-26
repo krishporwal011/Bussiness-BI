@@ -2,6 +2,8 @@
 
 This project analyzes retail invoice baskets with transparent Python association metrics, an Oracle SQL self-join implementation, and a Power BI dashboard specification. It is built around the public UCI **Online Retail** dataset and is designed to be rerun from the command line.
 
+Published repository: [github.com/krishporwal011/Bussiness-BI](https://github.com/krishporwal011/Bussiness-BI), branch `main`.
+
 ## Business problem
 
 Retail teams want to identify products that co-occur in the same transaction so they can test bundles, merchandising adjacency, and “frequently bought together” recommendations. The project reports the top 10 unordered item pairs by pair count and a supplementary top 10 by lift, including support, confidence A → B, confidence B → A, and lift.
@@ -183,6 +185,10 @@ The final audit is in [reports/final_submission_checklist.md](reports/final_subm
 
 No video-recording capability was available, so no MP4 is claimed. Use [demo/demo_script.md](demo/demo_script.md), [demo/demo_storyboard.md](demo/demo_storyboard.md), and [demo/recording_checklist.md](demo/recording_checklist.md) to record `demo/market_basket_analysis_demo.mp4` in an environment with a screen recorder.
 
+## GitHub publication
+
+The project is published at the repository root on the authorized `main` branch. GitHub accepted the approximately 54 MB `outputs/python_pair_metrics.csv` file with a large-file recommendation warning; raw data and bulk staging/cleaned extracts remain excluded and reproducible.
+
 ## Known limitations and remaining user action
 
 - Run the Oracle scripts in an Oracle environment and export the query result to complete reconciliation.
@@ -190,5 +196,5 @@ No video-recording capability was available, so no MP4 is claimed. Use [demo/dem
 - Optional: record the demo video.
 - The dataset is one historical retailer and should not be treated as causal or universally representative.
 - A fresh clone must obtain the public raw workbook separately because the raw file, SQL staging extract, and bulk cleaned CSVs are ignored by Git. The required full pair-metrics CSV is included despite its size; the remaining generated extracts can be regenerated with the Python commands above.
-- The local Git repository is initialized on `main` with commit `92c7305`; no remote URL was supplied and nothing was pushed.
+- The local Git repository is initialized on `main`, tracks `origin/main`, and is published at the repository URL shown above.
 
