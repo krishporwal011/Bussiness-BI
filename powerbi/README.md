@@ -1,6 +1,6 @@
 # Power BI dashboard build specification
 
-Power BI Desktop was not available in the build environment, so `market_basket_analysis.pbix` was **not** created or claimed. This folder contains the reproducible import, model, DAX, page, slicer, matrix, and drill-through specification needed to build it in Power BI Desktop.
+Power BI Desktop was rechecked on 2026-11-26 and is not available. The current environment is macOS, and no accessible Windows VM, Windows 365, Azure Virtual Desktop, or remote Windows session was present, so `market_basket_analysis.pbix` was **not** created or claimed. This folder contains the reproducible import, model, DAX, page, slicer, matrix, and drill-through specification needed to build it in Power BI Desktop.
 
 ## Build and refresh sequence
 
@@ -12,6 +12,8 @@ Power BI Desktop was not available in the build environment, so `market_basket_a
 6. Add the measures from `dax_measures.dax`.
 7. Build the five pages below and save the report as `powerbi/market_basket_analysis.pbix`.
 8. On refresh, rerun the Python pipeline first so the CSV outputs and thresholds are current, then use Refresh in Power BI.
+
+The current repository does not contain `market_basket_analysis.pbix`; the limitation is environmental rather than a dashboard validation result. When a Windows Power BI environment is available, validate the dashboard cards against `data/cleaned/data_quality_summary.csv` and the pair table against `outputs/python_top_10_pairs.csv` before publishing the PBIX.
 
 ## Required input tables
 

@@ -34,7 +34,7 @@ The default configuration is `MIN_ITEM_FREQUENCY=5`, `MIN_PAIR_COUNT=20`, `MIN_S
 The Python cleaning step creates a normalized CSV with explicit flags and a source-row number. `sqlldr` loads it as text/numeric staging data. Example:
 
 ```bash
-sqlldr userid=<user>/<password>@<service> \
+sqlldr userid=<user>@<service> \
   control=sql/stg_transaction_line.ctl \
   data=data/derived/sql_staging.csv \
   log=oracle_staging_load.log direct=true
@@ -60,5 +60,5 @@ Do not commit credentials. Use an Oracle wallet, environment-managed secret, or 
 
 ## Reconciliation
 
-Oracle export is intentionally a separate step because no Oracle client/database was available in the build environment. `reports/sql_python_reconciliation.md` is therefore marked **PENDING**, not PASS. After exporting the Oracle query result, run the reconciliation command in `08_validation_reconciliation.sql`; it compares pair keys, all integer counts, support, both directional confidences, and lift with a documented `1e-9` floating-point tolerance.
+Oracle export is intentionally a separate step because no Oracle client, database, driver, Docker/Podman runtime, or remote Windows/Oracle environment was available in the build environment. `reports/sql_python_reconciliation.md` is therefore marked **PENDING**, not PASS, and `outputs/oracle_pair_metrics.csv` does not exist. After exporting the Oracle query result, run the reconciliation command in `08_validation_reconciliation.sql`; it compares pair keys, all integer counts, support, both directional confidences, and lift with a documented `1e-9` floating-point tolerance.
 

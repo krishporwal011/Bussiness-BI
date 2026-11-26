@@ -20,13 +20,13 @@ Generated after the baseline rerun and final QA pass.
 | Oracle staging load | Complete | [`sql/04_load_staging.sql`](../sql/04_load_staging.sql), [`sql/stg_transaction_line.ctl`](../sql/stg_transaction_line.ctl) |
 | Oracle transform and pair query | Complete | [`sql/05_transform_clean.sql`](../sql/05_transform_clean.sql), [`sql/06_pair_queries.sql`](../sql/06_pair_queries.sql) |
 | Oracle analytical views | Complete | [`sql/07_create_views.sql`](../sql/07_create_views.sql) |
-| SQL/Python reconciliation execution | Pending | [`reports/sql_python_reconciliation.md`](sql_python_reconciliation.md); Oracle client/database unavailable |
-| Power BI `.pbix` | Pending | [`powerbi/market_basket_analysis.pbix.NOT_CREATED.md`](../powerbi/market_basket_analysis.pbix.NOT_CREATED.md) |
+| SQL/Python reconciliation execution | Pending | [`reports/sql_python_reconciliation.md`](sql_python_reconciliation.md); no Oracle DB/client/driver/container or remote environment |
+| Power BI `.pbix` | Pending | [`powerbi/market_basket_analysis.pbix.NOT_CREATED.md`](../powerbi/market_basket_analysis.pbix.NOT_CREATED.md); macOS with no accessible Windows Power BI environment |
 | Power BI implementation package | Complete | [`powerbi/README.md`](../powerbi/README.md), [`powerbi/dax_measures.dax`](../powerbi/dax_measures.dax) |
 | Data-quality report | Complete | [`reports/data_quality_report.md`](../reports/data_quality_report.md) |
 | Insights summary | Complete | [`reports/insights_summary.md`](../reports/insights_summary.md) |
 | Automated QA | Complete | `python -m pytest -q` → 5 passed |
-| Demo MP4 | Pending | Recording package exists; no recorder available |
+| Demo MP4 | Pending | Recording package exists; no recorder, ffmpeg, or verified PBIX available |
 | Demo recording package | Complete | [`demo/demo_script.md`](../demo/demo_script.md), [`demo/demo_storyboard.md`](../demo/demo_storyboard.md), [`demo/recording_checklist.md`](../demo/recording_checklist.md) |
 | Git repository initialized | Complete | Local `.git/`, branch `main`, tracking `origin/main` |
 | Initial Git commit | Complete | Current `HEAD` — `Complete reproducible market basket analysis project` |

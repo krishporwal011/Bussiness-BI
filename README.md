@@ -112,7 +112,7 @@ See [docs/kpi_definitions.md](docs/kpi_definitions.md) and [reports/data_quality
 
 ## Oracle setup and execution
 
-Oracle Database and `sqlplus`/`sqlcl` were not installed in the build environment, so the SQL scripts are syntactically reviewed and logically aligned with Python but not claimed as executed here.
+Oracle reconciliation was rechecked on 2026-11-26 and remains **PENDING**: no Oracle Database, SQL*Plus, SQLcl, SQL*Loader, `oracledb`/`cx_Oracle` driver, Docker/Podman runtime, or Oracle connection configuration was available. The SQL scripts are syntactically reviewed and logically aligned with Python but are not claimed as executed here.
 
 Run in this order in a target Oracle 19c-compatible schema:
 
@@ -136,7 +136,7 @@ Validation prerequisites are Oracle 19c/Free/XE (or an approved Oracle service),
 
 The reconciler compares pair keys, pair counts, basket counts, both item counts, support, both directional confidences, and lift. Integer counts must match exactly; floating metrics use an absolute tolerance of `1e-9`. Missing and extra pair keys are reported, and any mismatch causes a non-zero exit code.
 
-Current status: **PENDING**, because Oracle was unavailable. The generated [reconciliation report](reports/sql_python_reconciliation.md) deliberately does not claim a database result. After exporting `sql/06_pair_queries.sql` to CSV:
+Current status: **PENDING**, because Oracle and a safe container/remote Oracle environment were unavailable. No `outputs/oracle_pair_metrics.csv` is fabricated. The generated [reconciliation report](reports/sql_python_reconciliation.md) records the blocker. After exporting `sql/06_pair_queries.sql` to CSV:
 
 ```bash
 python src/reconcile_sql_python.py \
@@ -146,7 +146,7 @@ python src/reconcile_sql_python.py \
 
 ## Power BI dashboard
 
-Power BI Desktop was not available, so no `.pbix` file was created. The project does not pretend otherwise. The complete build specification is in [powerbi/README.md](powerbi/README.md), with [Power Query M](powerbi/power_query.m), [DAX measures](powerbi/dax_measures.dax), and [relationship guidance](powerbi/model_relationships.md). The intended file name is `market_basket_analysis.pbix`. Because the qualifying pair table has 347,481 rows, the main matrix should use selected-item or Top-N filtering while the full table remains available for detail.
+Power BI Desktop was rechecked and is unavailable: this environment is macOS and no accessible Windows VM, Windows 365, Azure Virtual Desktop, or remote Windows session was present. Therefore no `.pbix` file was created. The complete build specification is in [powerbi/README.md](powerbi/README.md), with [Power Query M](powerbi/power_query.m), [DAX measures](powerbi/dax_measures.dax), and [relationship guidance](powerbi/model_relationships.md). The intended file name is `market_basket_analysis.pbix`. Because the qualifying pair table has 347,481 rows, the main matrix should use selected-item or Top-N filtering while the full table remains available for detail.
 
 Required pages:
 
@@ -183,7 +183,7 @@ The final audit is in [reports/final_submission_checklist.md](reports/final_subm
 
 ## Demo
 
-No video-recording capability was available, so no MP4 is claimed. Use [demo/demo_script.md](demo/demo_script.md), [demo/demo_storyboard.md](demo/demo_storyboard.md), and [demo/recording_checklist.md](demo/recording_checklist.md) to record `demo/market_basket_analysis_demo.mp4` in an environment with a screen recorder.
+No screen-recording tool or `ffmpeg` was available, and no working Power BI dashboard exists to record, so no MP4 is claimed. Use [demo/demo_script.md](demo/demo_script.md), [demo/demo_storyboard.md](demo/demo_storyboard.md), and [demo/recording_checklist.md](demo/recording_checklist.md) to record `demo/market_basket_analysis_demo.mp4` in an environment with Power BI Desktop and a screen recorder.
 
 ## GitHub publication
 
