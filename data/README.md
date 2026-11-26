@@ -18,5 +18,7 @@ Run `python src/clean_data.py` to create:
 - `cleaned/data_quality_summary.csv` and `cleaned/cleaning_audit.csv` — quantified checks.
 - `derived/sql_staging.csv` — normalized staging extract for Oracle loading; generated locally and ignored by Git.
 
+The raw workbook, staging CSV, and bulk cleaned extracts are intentionally not published to GitHub. They are reproducible from the official source and the cleaning script. The required full pair-metrics output is published under `outputs/` despite its approximately 54 MB size.
+
 The raw workbook is intentionally not committed. The cleaning rules and all exclusions are documented in `docs/kpi_definitions.md` and `reports/data_quality_report.md`.
 

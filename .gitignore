@@ -4,6 +4,12 @@ __pycache__/
 .pytest_cache/
 .venv/
 venv/
+env/
+.env
+*.log
+.ipynb_checkpoints/
+*.sqlite
+*.db
 
 # Local source data and generated bulk extracts
 data/raw/*

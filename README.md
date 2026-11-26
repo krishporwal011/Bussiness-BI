@@ -79,6 +79,8 @@ Outputs:
 - `outputs/python_item_frequency.csv`
 - `outputs/rare_item_impact.csv`
 
+The full `outputs/python_pair_metrics.csv` is tracked because it is a required project output; it is approximately 54 MB. Raw, staging, and large cleaned extracts remain ignored and are regenerated from the documented UCI source.
+
 The primary implementation is intentionally transparent: it deduplicates to one row per basket-item, uses `itertools.combinations` to generate unordered pairs inside each basket, counts baskets, and computes the documented formulas. It does not rely on `mlxtend`; the research report links to mlxtend for independent metric definitions.
 
 ## Threshold configuration
@@ -187,6 +189,6 @@ No video-recording capability was available, so no MP4 is claimed. Use [demo/dem
 - Build and save `market_basket_analysis.pbix` in Power BI Desktop using the supplied specification.
 - Optional: record the demo video.
 - The dataset is one historical retailer and should not be treated as causal or universally representative.
-- A fresh clone must obtain the public raw workbook separately because the raw file and bulk derived CSVs are ignored by Git.
+- A fresh clone must obtain the public raw workbook separately because the raw file, SQL staging extract, and bulk cleaned CSVs are ignored by Git. The required full pair-metrics CSV is included despite its size; the remaining generated extracts can be regenerated with the Python commands above.
 - The local Git repository is initialized on `main` with commit `92c7305`; no remote URL was supplied and nothing was pushed.
 
