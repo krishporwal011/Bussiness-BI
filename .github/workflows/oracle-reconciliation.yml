@@ -1,6 +1,10 @@
 name: Oracle reconciliation
 
 on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/oracle-reconciliation.yml"
   workflow_dispatch:
 
 permissions:
