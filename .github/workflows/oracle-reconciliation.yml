@@ -90,9 +90,9 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          docker exec oracle-free mkdir -p /workspace/sql /workspace/data/derived /workspace/oracle_exports
-          docker cp sql/. oracle-free:/workspace/sql/
-          docker cp data/derived/sql_staging.csv oracle-free:/workspace/data/derived/sql_staging.csv
+          docker exec oracle-free mkdir -p /tmp/market-basket/sql /tmp/market-basket/data/derived /tmp/market-basket/oracle_exports
+          docker cp sql/. oracle-free:/tmp/market-basket/sql/
+          docker cp data/derived/sql_staging.csv oracle-free:/tmp/market-basket/data/derived/sql_staging.csv
 
       - name: Execute schema and staging setup
         shell: bash
@@ -101,9 +101,9 @@ jobs:
           docker exec -i oracle-free sqlplus -s /nolog <<SQL
           whenever sqlerror exit sql.sqlcode
           connect system/${DB_PASSWORD}@//localhost:1521/FREEPDB1
-          @/workspace/sql/01_create_schema.sql
-          @/workspace/sql/02_create_tables.sql
-          @/workspace/sql/04_load_staging.sql
+          @/tmp/market-basket/sql/01_create_schema.sql
+          @/tmp/market-basket/sql/02_create_tables.sql
+          @/tmp/market-basket/sql/04_load_staging.sql
           exit
           SQL
 
@@ -113,9 +113,9 @@ jobs:
           set -euo pipefail
           docker exec oracle-free sqlldr \
             "userid=system/${DB_PASSWORD}@//localhost:1521/FREEPDB1" \
-            control=/workspace/sql/stg_transaction_line.ctl \
-            data=/workspace/data/derived/sql_staging.csv \
-            log=/workspace/oracle_staging_load.log \
+            control=/tmp/market-basket/sql/stg_transaction_line.ctl \
+            data=/tmp/market-basket/data/derived/sql_staging.csv \
+            log=/tmp/market-basket/oracle_staging_load.log \
             direct=true
 
       - name: Execute transforms, constraints, views, and validation
@@ -125,10 +125,10 @@ jobs:
           docker exec -i oracle-free sqlplus -s /nolog <<SQL
           whenever sqlerror exit sql.sqlcode
           connect system/${DB_PASSWORD}@//localhost:1521/FREEPDB1
-          @/workspace/sql/05_transform_clean.sql
-          @/workspace/sql/03_create_constraints_indexes.sql
-          @/workspace/sql/07_create_views.sql
-          @/workspace/sql/08_validation_reconciliation.sql
+          @/tmp/market-basket/sql/05_transform_clean.sql
+          @/tmp/market-basket/sql/03_create_constraints_indexes.sql
+          @/tmp/market-basket/sql/07_create_views.sql
+          @/tmp/market-basket/sql/08_validation_reconciliation.sql
           exit
           SQL
 
@@ -145,13 +145,13 @@ jobs:
           set echo off
           set termout off
           set trimspool on
-          spool /workspace/oracle_exports/oracle_pair_metrics.csv
-          @/workspace/sql/06_pair_queries.sql
+          spool /tmp/market-basket/oracle_exports/oracle_pair_metrics.csv
+          @/tmp/market-basket/sql/06_pair_queries.sql
           spool off
           exit
           SQL
           mkdir -p outputs
-          docker cp oracle-free:/workspace/oracle_exports/oracle_pair_metrics.csv outputs/oracle_pair_metrics.csv
+          docker cp oracle-free:/tmp/market-basket/oracle_exports/oracle_pair_metrics.csv outputs/oracle_pair_metrics.csv
           test -s outputs/oracle_pair_metrics.csv
           python - <<'PY'
           from pathlib import Path
@@ -175,7 +175,7 @@ jobs:
         run: |
           set +e
           docker logs oracle-free > oracle-container.log 2>&1
-          docker cp oracle-free:/workspace/oracle_staging_load.log oracle-staging-load.log
+          docker cp oracle-free:/tmp/market-basket/oracle_staging_load.log oracle-staging-load.log
           true
 
       - name: Upload reconciliation artifacts
