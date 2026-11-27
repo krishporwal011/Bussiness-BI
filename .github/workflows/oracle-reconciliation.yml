@@ -116,6 +116,7 @@ jobs:
             control=/tmp/market-basket/sql/stg_transaction_line.ctl \
             data=/tmp/market-basket/data/derived/sql_staging.csv \
             log=/tmp/market-basket/oracle_staging_load.log \
+            skip=1 \
             direct=true
 
       - name: Execute transforms, constraints, views, and validation
