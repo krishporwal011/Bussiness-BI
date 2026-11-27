@@ -32,7 +32,6 @@ config/       Thresholds and dataset configuration
 data/raw/     Unmodified source workbook (local, ignored)
 data/cleaned/ Clean transaction, presence, basket, product, and quality tables
 data/derived/ Normalized SQL staging CSV (local, ignored)
-demo/         Demo script, storyboard, and recording checklist
 docs/         Research, KPI definitions, and data-model diagram
 notebooks/    Cleaning and association-analysis walkthroughs
 outputs/      Python pair metrics, top-10 outputs, frequency and impact tables
@@ -181,10 +180,6 @@ The unit tests verify that duplicate lines do not inflate a pair and that a sing
 
 The final audit is in [reports/final_submission_checklist.md](reports/final_submission_checklist.md). The current suite has 5 passing tests, including threshold behavior, formula checks, deterministic ordering, no reverse-pair duplication, and visible reconciliation failure behavior.
 
-## Demo
-
-No screen-recording tool or `ffmpeg` was available, and no working Power BI dashboard exists to record, so no MP4 is claimed. Use [demo/demo_script.md](demo/demo_script.md), [demo/demo_storyboard.md](demo/demo_storyboard.md), and [demo/recording_checklist.md](demo/recording_checklist.md) to record `demo/market_basket_analysis_demo.mp4` in an environment with Power BI Desktop and a screen recorder.
-
 ## GitHub publication
 
 The project is published at the repository root on the authorized `main` branch. GitHub accepted the approximately 54 MB `outputs/python_pair_metrics.csv` file with a large-file recommendation warning; raw data and bulk staging/cleaned extracts remain excluded and reproducible.
@@ -193,7 +188,6 @@ The project is published at the repository root on the authorized `main` branch.
 
 - Run the Oracle scripts in an Oracle environment and export the query result to complete reconciliation.
 - Build and save `market_basket_analysis.pbix` in Power BI Desktop using the supplied specification.
-- Optional: record the demo video.
 - The dataset is one historical retailer and should not be treated as causal or universally representative.
 - A fresh clone must obtain the public raw workbook separately because the raw file, SQL staging extract, and bulk cleaned CSVs are ignored by Git. The required full pair-metrics CSV is included despite its size; the remaining generated extracts can be regenerated with the Python commands above.
 - The local Git repository is initialized on `main`, tracks `origin/main`, and is published at the repository URL shown above.

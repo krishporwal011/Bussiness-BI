@@ -26,8 +26,6 @@ Generated after the baseline rerun and final QA pass.
 | Data-quality report | Complete | [`reports/data_quality_report.md`](../reports/data_quality_report.md) |
 | Insights summary | Complete | [`reports/insights_summary.md`](../reports/insights_summary.md) |
 | Automated QA | Complete | `python -m pytest -q` → 5 passed |
-| Demo MP4 | Pending | Recording package exists; no recorder, ffmpeg, or verified PBIX available |
-| Demo recording package | Complete | [`demo/demo_script.md`](../demo/demo_script.md), [`demo/demo_storyboard.md`](../demo/demo_storyboard.md), [`demo/recording_checklist.md`](../demo/recording_checklist.md) |
 | Git repository initialized | Complete | Local `.git/`, branch `main`, tracking `origin/main` |
 | Initial Git commit | Complete | Current `HEAD` — `Complete reproducible market basket analysis project` |
 | GitHub remote/push | Complete | [Bussiness-BI](https://github.com/krishporwal011/Bussiness-BI), root, branch `main` |
@@ -43,5 +41,4 @@ Generated after the baseline rerun and final QA pass.
 
 1. Provide an Oracle 19c/Free/XE environment and SQL*Plus/SQLcl plus SQL*Loader; execute the documented runbook and rerun reconciliation.
 2. Build/save `powerbi/market_basket_analysis.pbix` in Power BI Desktop using the supplied M/DAX/model package.
-3. Record `demo/market_basket_analysis_demo.mp4` using the supplied script and checklist.
-4. Optional: migrate the 54 MB pair-metrics file to Git LFS later if repository storage policy requires it; the current push succeeded with GitHub's large-file recommendation warning.
+3. Optional: migrate the 54 MB pair-metrics file to Git LFS later if repository storage policy requires it; the current push succeeded with GitHub's large-file recommendation warning.
