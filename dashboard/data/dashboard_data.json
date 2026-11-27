@@ -1,0 +1,550 @@
+{
+  "generated_at": "2026-11-27T11:38:33.671061+00:00",
+  "source": "UCI Online Retail",
+  "thresholds": {
+    "min_item_frequency": 5,
+    "min_pair_count": 20,
+    "min_support": 0.001,
+    "min_confidence": 0.0,
+    "top_n": 10,
+    "include_canceled_returns": false,
+    "dataset_filter": "All valid merchandise baskets from UCI Online Retail",
+    "currency": "GBP",
+    "source_url": "https://archive.ics.uci.edu/dataset/352/online%2Bretail",
+    "download_date": "2026-11-26"
+  },
+  "kpis": {
+    "raw_rows": 541909,
+    "retained_clean_lines": 522537,
+    "baskets": 19773,
+    "products": 3798,
+    "presence_rows": 517287,
+    "single_item_baskets": 1500,
+    "qualifying_pairs": 347481
+  },
+  "reconciliation": {
+    "status": "PASS",
+    "matching_pairs": 347481,
+    "failed_pairs": 0
+  },
+  "count_pairs": [
+    {
+      "item_a_key": 22386,
+      "item_a_name": "JUMBO BAG PINK POLKADOT",
+      "item_b_key": "85099B",
+      "item_b_name": "JUMBO BAG RED RETROSPOT",
+      "pair_count": 825,
+      "basket_count": 19773,
+      "item_a_basket_count": 1218,
+      "item_b_basket_count": 2089,
+      "support": 0.0417235624,
+      "confidence_a_to_b": 0.6773399015,
+      "confidence_b_to_a": 0.3949258018,
+      "lift": 6.4112215758,
+      "rank": 1
+    },
+    {
+      "item_a_key": 22697,
+      "item_a_name": "GREEN REGENCY TEACUP AND SAUCER",
+      "item_b_key": "22699",
+      "item_b_name": "ROSES REGENCY TEACUP AND SAUCER",
+      "pair_count": 767,
+      "basket_count": 19773,
+      "item_a_basket_count": 1013,
+      "item_b_basket_count": 1065,
+      "support": 0.0387902696,
+      "confidence_a_to_b": 0.7571569595,
+      "confidence_b_to_a": 0.7201877934,
+      "lift": 14.0575254091,
+      "rank": 2
+    },
+    {
+      "item_a_key": 21931,
+      "item_a_name": "JUMBO STORAGE BAG SUKI",
+      "item_b_key": "85099B",
+      "item_b_name": "JUMBO BAG RED RETROSPOT",
+      "pair_count": 724,
+      "basket_count": 19773,
+      "item_a_basket_count": 1184,
+      "item_b_basket_count": 2089,
+      "support": 0.0366155869,
+      "confidence_a_to_b": 0.6114864865,
+      "confidence_b_to_a": 0.3465773097,
+      "lift": 5.7878996157,
+      "rank": 3
+    },
+    {
+      "item_a_key": 22411,
+      "item_a_name": "JUMBO SHOPPER VINTAGE RED PAISLEY",
+      "item_b_key": "85099B",
+      "item_b_name": "JUMBO BAG RED RETROSPOT",
+      "pair_count": 680,
+      "basket_count": 19773,
+      "item_a_basket_count": 1175,
+      "item_b_basket_count": 2089,
+      "support": 0.0343903302,
+      "confidence_a_to_b": 0.5787234043,
+      "confidence_b_to_a": 0.3255146003,
+      "lift": 5.477787397,
+      "rank": 4
+    },
+    {
+      "item_a_key": 20725,
+      "item_a_name": "LUNCH BAG RED RETROSPOT",
+      "item_b_key": "22383",
+      "item_b_name": "LUNCH BAG SUKI  DESIGN",
+      "pair_count": 655,
+      "basket_count": 19773,
+      "item_a_basket_count": 1565,
+      "item_b_basket_count": 1284,
+      "support": 0.0331259799,
+      "confidence_a_to_b": 0.4185303514,
+      "confidence_b_to_a": 0.5101246106,
+      "lift": 6.4451718372,
+      "rank": 5
+    },
+    {
+      "item_a_key": 20725,
+      "item_a_name": "LUNCH BAG RED RETROSPOT",
+      "item_b_key": "20727",
+      "item_b_name": "LUNCH BAG  BLACK SKULL.",
+      "pair_count": 641,
+      "basket_count": 19773,
+      "item_a_basket_count": 1565,
+      "item_b_basket_count": 1273,
+      "support": 0.0324179437,
+      "confidence_a_to_b": 0.4095846645,
+      "confidence_b_to_a": 0.5035349568,
+      "lift": 6.3619148247,
+      "rank": 6
+    },
+    {
+      "item_a_key": 22726,
+      "item_a_name": "ALARM CLOCK BAKELIKE GREEN",
+      "item_b_key": "22727",
+      "item_b_name": "ALARM CLOCK BAKELIKE RED",
+      "pair_count": 640,
+      "basket_count": 19773,
+      "item_a_basket_count": 980,
+      "item_b_basket_count": 1051,
+      "support": 0.0323673696,
+      "confidence_a_to_b": 0.6530612245,
+      "confidence_b_to_a": 0.608943863,
+      "lift": 12.2863744927,
+      "rank": 7
+    },
+    {
+      "item_a_key": 22697,
+      "item_a_name": "GREEN REGENCY TEACUP AND SAUCER",
+      "item_b_key": "22698",
+      "item_b_name": "PINK REGENCY TEACUP AND SAUCER",
+      "pair_count": 632,
+      "basket_count": 19773,
+      "item_a_basket_count": 1013,
+      "item_b_basket_count": 765,
+      "support": 0.0319627775,
+      "confidence_a_to_b": 0.6238894373,
+      "confidence_b_to_a": 0.8261437908,
+      "lift": 16.1257069857,
+      "rank": 8
+    },
+    {
+      "item_a_key": 20725,
+      "item_a_name": "LUNCH BAG RED RETROSPOT",
+      "item_b_key": "22384",
+      "item_b_name": "LUNCH BAG PINK POLKADOT",
+      "pair_count": 606,
+      "basket_count": 19773,
+      "item_a_basket_count": 1565,
+      "item_b_basket_count": 1090,
+      "support": 0.0306478531,
+      "confidence_a_to_b": 0.3872204473,
+      "confidence_b_to_a": 0.5559633028,
+      "lift": 7.024321013,
+      "rank": 9
+    },
+    {
+      "item_a_key": 22698,
+      "item_a_name": "PINK REGENCY TEACUP AND SAUCER",
+      "item_b_key": "22699",
+      "item_b_name": "ROSES REGENCY TEACUP AND SAUCER",
+      "pair_count": 598,
+      "basket_count": 19773,
+      "item_a_basket_count": 765,
+      "item_b_basket_count": 1065,
+      "support": 0.030243261,
+      "confidence_a_to_b": 0.7816993464,
+      "confidence_b_to_a": 0.5615023474,
+      "lift": 14.5131842033,
+      "rank": 10
+    }
+  ],
+  "lift_pairs": [
+    {
+      "item_a_key": "84531A",
+      "item_a_name": "PINK KNITTED EGG COSY",
+      "item_b_key": "84531B",
+      "item_b_name": "BLUE KNITTED EGG COSY",
+      "pair_count": 25,
+      "basket_count": 19773,
+      "item_a_basket_count": 29,
+      "item_b_basket_count": 28,
+      "support": 0.0012643504,
+      "confidence_a_to_b": 0.8620689655,
+      "confidence_b_to_a": 0.8928571429,
+      "lift": 608.7746305419,
+      "rank": 1
+    },
+    {
+      "item_a_key": "23420",
+      "item_a_name": "PANTRY HOOK TEA STRAINER",
+      "item_b_key": "23421",
+      "item_b_name": "PANTRY HOOK SPATULA",
+      "pair_count": 25,
+      "basket_count": 19773,
+      "item_a_basket_count": 32,
+      "item_b_basket_count": 33,
+      "support": 0.0012643504,
+      "confidence_a_to_b": 0.78125,
+      "confidence_b_to_a": 0.7575757576,
+      "lift": 468.1107954545,
+      "rank": 2
+    },
+    {
+      "item_a_key": "35916A",
+      "item_a_name": "YELLOW FELT HANGING HEART W FLOWER",
+      "item_b_key": "35916B",
+      "item_b_name": "BLUE FELT HANGING HEART W FLOWER",
+      "pair_count": 20,
+      "basket_count": 19773,
+      "item_a_basket_count": 29,
+      "item_b_basket_count": 32,
+      "support": 0.0010114803,
+      "confidence_a_to_b": 0.6896551724,
+      "confidence_b_to_a": 0.625,
+      "lift": 426.1422413793,
+      "rank": 3
+    },
+    {
+      "item_a_key": "21367",
+      "item_a_name": "MIRRORED WALL ART GENTS",
+      "item_b_key": "21368",
+      "item_b_name": "MIRRORED WALL ART LADIES",
+      "pair_count": 27,
+      "basket_count": 19773,
+      "item_a_basket_count": 43,
+      "item_b_basket_count": 33,
+      "support": 0.0013654984,
+      "confidence_a_to_b": 0.6279069767,
+      "confidence_b_to_a": 0.8181818182,
+      "lift": 376.2304439746,
+      "rank": 4
+    },
+    {
+      "item_a_key": "23421",
+      "item_a_name": "PANTRY HOOK SPATULA",
+      "item_b_key": "23422",
+      "item_b_name": "PANTRY HOOK BALLOON WHISK",
+      "pair_count": 29,
+      "basket_count": 19773,
+      "item_a_basket_count": 33,
+      "item_b_basket_count": 47,
+      "support": 0.0014666464,
+      "confidence_a_to_b": 0.8787878788,
+      "confidence_b_to_a": 0.6170212766,
+      "lift": 369.7079303675,
+      "rank": 5
+    },
+    {
+      "item_a_key": "23420",
+      "item_a_name": "PANTRY HOOK TEA STRAINER",
+      "item_b_key": "23422",
+      "item_b_name": "PANTRY HOOK BALLOON WHISK",
+      "pair_count": 28,
+      "basket_count": 19773,
+      "item_a_basket_count": 32,
+      "item_b_basket_count": 47,
+      "support": 0.0014160724,
+      "confidence_a_to_b": 0.875,
+      "confidence_b_to_a": 0.5957446809,
+      "lift": 368.1143617021,
+      "rank": 6
+    },
+    {
+      "item_a_key": "23521",
+      "item_a_name": "CAT AND BIRD WALL ART",
+      "item_b_key": "23522",
+      "item_b_name": "DOG AND BALL WALL ART",
+      "pair_count": 25,
+      "basket_count": 19773,
+      "item_a_basket_count": 44,
+      "item_b_basket_count": 32,
+      "support": 0.0012643504,
+      "confidence_a_to_b": 0.5681818182,
+      "confidence_b_to_a": 0.78125,
+      "lift": 351.0830965909,
+      "rank": 7
+    },
+    {
+      "item_a_key": "23455",
+      "item_a_name": "SMALL PARLOUR PICTURE FRAME",
+      "item_b_key": "23456",
+      "item_b_name": "MEDIUM PARLOUR PICTURE FRAME",
+      "pair_count": 22,
+      "basket_count": 19773,
+      "item_a_basket_count": 35,
+      "item_b_basket_count": 36,
+      "support": 0.0011126283,
+      "confidence_a_to_b": 0.6285714286,
+      "confidence_b_to_a": 0.6111111111,
+      "lift": 345.2428571429,
+      "rank": 8
+    },
+    {
+      "item_a_key": "23575",
+      "item_a_name": "SNACK TRAY PAISLEY PARK",
+      "item_b_key": "23576",
+      "item_b_name": "SNACK TRAY RED VINTAGE DOILY",
+      "pair_count": 20,
+      "basket_count": 19773,
+      "item_a_basket_count": 32,
+      "item_b_basket_count": 37,
+      "support": 0.0010114803,
+      "confidence_a_to_b": 0.625,
+      "confidence_b_to_a": 0.5405405405,
+      "lift": 334.0033783784,
+      "rank": 9
+    },
+    {
+      "item_a_key": "20868",
+      "item_a_name": "SILVER FABRIC MIRROR",
+      "item_b_key": "20869",
+      "item_b_name": "GOLD FABRIC MIRROR",
+      "pair_count": 21,
+      "basket_count": 19773,
+      "item_a_basket_count": 46,
+      "item_b_basket_count": 29,
+      "support": 0.0010620543,
+      "confidence_a_to_b": 0.4565217391,
+      "confidence_b_to_a": 0.724137931,
+      "lift": 311.2691154423,
+      "rank": 10
+    }
+  ],
+  "item_frequency": [
+    {
+      "item_key": "85123A",
+      "item_name": "WHITE HANGING HEART T-LIGHT HOLDER",
+      "basket_count": 2265
+    },
+    {
+      "item_key": "85099B",
+      "item_name": "JUMBO BAG RED RETROSPOT",
+      "basket_count": 2089
+    },
+    {
+      "item_key": "22423",
+      "item_name": "REGENCY CAKESTAND 3 TIER",
+      "basket_count": 1988
+    },
+    {
+      "item_key": "47566",
+      "item_name": "PARTY BUNTING",
+      "basket_count": 1685
+    },
+    {
+      "item_key": "20725",
+      "item_name": "LUNCH BAG RED RETROSPOT",
+      "basket_count": 1565
+    },
+    {
+      "item_key": "84879",
+      "item_name": "ASSORTED COLOUR BIRD ORNAMENT",
+      "basket_count": 1455
+    },
+    {
+      "item_key": "22197",
+      "item_name": "SMALL POPCORN HOLDER",
+      "basket_count": 1392
+    },
+    {
+      "item_key": "22720",
+      "item_name": "SET OF 3 CAKE TINS PANTRY DESIGN",
+      "basket_count": 1385
+    },
+    {
+      "item_key": "21212",
+      "item_name": "PACK OF 72 RETROSPOT CAKE CASES",
+      "basket_count": 1320
+    },
+    {
+      "item_key": "22383",
+      "item_name": "LUNCH BAG SUKI  DESIGN",
+      "basket_count": 1284
+    },
+    {
+      "item_key": "20727",
+      "item_name": "LUNCH BAG  BLACK SKULL.",
+      "basket_count": 1273
+    },
+    {
+      "item_key": "22457",
+      "item_name": "NATURAL SLATE HEART CHALKBOARD",
+      "basket_count": 1249
+    },
+    {
+      "item_key": "23203",
+      "item_name": "JUMBO BAG DOILEY PATTERNS",
+      "basket_count": 1231
+    },
+    {
+      "item_key": "22386",
+      "item_name": "JUMBO BAG PINK POLKADOT",
+      "basket_count": 1218
+    },
+    {
+      "item_key": "22469",
+      "item_name": "HEART OF WICKER SMALL",
+      "basket_count": 1201
+    },
+    {
+      "item_key": "21931",
+      "item_name": "JUMBO STORAGE BAG SUKI",
+      "basket_count": 1184
+    },
+    {
+      "item_key": "22411",
+      "item_name": "JUMBO SHOPPER VINTAGE RED PAISLEY",
+      "basket_count": 1175
+    },
+    {
+      "item_key": "22961",
+      "item_name": "JAM MAKING SET PRINTED",
+      "basket_count": 1162
+    },
+    {
+      "item_key": "22086",
+      "item_name": "PAPER CHAIN KIT 50'S CHRISTMAS",
+      "basket_count": 1160
+    },
+    {
+      "item_key": "22382",
+      "item_name": "LUNCH BAG SPACEBOY DESIGN",
+      "basket_count": 1157
+    },
+    {
+      "item_key": "20728",
+      "item_name": "LUNCH BAG CARS BLUE",
+      "basket_count": 1150
+    },
+    {
+      "item_key": "23298",
+      "item_name": "SPOTTY BUNTING",
+      "basket_count": 1146
+    },
+    {
+      "item_key": "22960",
+      "item_name": "JAM MAKING SET WITH JARS",
+      "basket_count": 1132
+    },
+    {
+      "item_key": "22666",
+      "item_name": "RECIPE BOX PANTRY YELLOW DESIGN",
+      "basket_count": 1111
+    },
+    {
+      "item_key": "82482",
+      "item_name": "WOODEN PICTURE FRAME WHITE FINISH",
+      "basket_count": 1100
+    },
+    {
+      "item_key": "23209",
+      "item_name": "LUNCH BAG DOILEY PATTERN",
+      "basket_count": 1098
+    },
+    {
+      "item_key": "22384",
+      "item_name": "LUNCH BAG PINK POLKADOT",
+      "basket_count": 1090
+    },
+    {
+      "item_key": "22993",
+      "item_name": "SET OF 4 PANTRY JELLY MOULDS",
+      "basket_count": 1073
+    },
+    {
+      "item_key": "22699",
+      "item_name": "ROSES REGENCY TEACUP AND SAUCER",
+      "basket_count": 1065
+    },
+    {
+      "item_key": "22727",
+      "item_name": "ALARM CLOCK BAKELIKE RED",
+      "basket_count": 1051
+    },
+    {
+      "item_key": "22178",
+      "item_name": "VICTORIAN GLASS HANGING T-LIGHT",
+      "basket_count": 1037
+    },
+    {
+      "item_key": "23206",
+      "item_name": "LUNCH BAG APPLE DESIGN",
+      "basket_count": 1036
+    },
+    {
+      "item_key": "20724",
+      "item_name": "RED RETROSPOT CHARLOTTE BAG",
+      "basket_count": 1032
+    },
+    {
+      "item_key": "20726",
+      "item_name": "LUNCH BAG WOODLAND",
+      "basket_count": 1017
+    },
+    {
+      "item_key": "22697",
+      "item_name": "GREEN REGENCY TEACUP AND SAUCER",
+      "basket_count": 1013
+    },
+    {
+      "item_key": "23084",
+      "item_name": "RABBIT NIGHT LIGHT",
+      "basket_count": 994
+    },
+    {
+      "item_key": "21080",
+      "item_name": "SET/20 RED RETROSPOT PAPER NAPKINS",
+      "basket_count": 986
+    },
+    {
+      "item_key": "22726",
+      "item_name": "ALARM CLOCK BAKELIKE GREEN",
+      "basket_count": 980
+    },
+    {
+      "item_key": "23199",
+      "item_name": "JUMBO BAG APPLES",
+      "basket_count": 978
+    },
+    {
+      "item_key": "82494L",
+      "item_name": "WOODEN FRAME ANTIQUE WHITE",
+      "basket_count": 971
+    }
+  ],
+  "rare_item_impact": [
+    {
+      "population": "all_cleaned_items",
+      "item_count": 3798,
+      "basket_item_rows": 517287,
+      "pair_count_rows": 3578571
+    },
+    {
+      "population": "items_with_basket_count_ge_5",
+      "item_count": 3406,
+      "basket_item_rows": 516416,
+      "pair_count_rows": 347481
+    }
+  ]
+}

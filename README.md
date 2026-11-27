@@ -32,6 +32,7 @@ config/       Thresholds and dataset configuration
 data/raw/     Unmodified source workbook (local, ignored)
 data/cleaned/ Clean transaction, presence, basket, product, and quality tables
 data/derived/ Normalized SQL staging CSV (local, ignored)
+dashboard/    Static GitHub Pages dashboard and browser data bundle
 docs/         Research, KPI definitions, and data-model diagram
 notebooks/    Cleaning and association-analysis walkthroughs
 outputs/      Python pair metrics, top-10 outputs, frequency and impact tables
@@ -143,9 +144,15 @@ python src/reconcile_sql_python.py \
   --sql oracle_exports/oracle_pair_metrics.csv
 ```
 
-## Power BI dashboard
+## Live dashboard
 
-Power BI Desktop was rechecked and is unavailable: this environment is macOS and no accessible Windows VM, Windows 365, Azure Virtual Desktop, or remote Windows session was present. Therefore no `.pbix` file was created. The complete build specification is in [powerbi/README.md](powerbi/README.md), with [Power Query M](powerbi/power_query.m), [DAX measures](powerbi/dax_measures.dax), and [relationship guidance](powerbi/model_relationships.md). The intended file name is `market_basket_analysis.pbix`. Because the qualifying pair table has 347,481 rows, the main matrix should use selected-item or Top-N filtering while the full table remains available for detail.
+The live dashboard is published at [krishporwal011.github.io/Bussiness-BI](https://krishporwal011.github.io/Bussiness-BI/). It is a static, interactive GitHub Pages dashboard built from the verified Python outputs and Oracle reconciliation status. It answers three questions: which pairs should be bundled, which products deserve attention, and whether the cross-engine result is trustworthy. The deployment workflow is [`.github/workflows/pages.yml`](.github/workflows/pages.yml), and the dashboard source is [`dashboard/index.html`](dashboard/index.html).
+
+This browser dashboard is the deliverable for the current macOS workflow. It is not a `.pbix` file and does not require Power BI Desktop.
+
+## Power BI dashboard specification
+
+Power BI Desktop remains an optional Windows-only build path; no `.pbix` file is claimed for this macOS project. The complete specification is in [powerbi/README.md](powerbi/README.md), with [Power Query M](powerbi/power_query.m), [DAX measures](powerbi/dax_measures.dax), and [relationship guidance](powerbi/model_relationships.md). The GitHub Pages dashboard above is the live cross-platform alternative.
 
 Required pages:
 
@@ -186,7 +193,6 @@ The project is published at the repository root on the authorized `main` branch.
 
 ## Known limitations and remaining user action
 
-- Build and save `market_basket_analysis.pbix` in Power BI Desktop using the supplied specification.
 - The dataset is one historical retailer and should not be treated as causal or universally representative.
 - A fresh clone must obtain the public raw workbook separately because the raw file, SQL staging extract, and bulk cleaned CSVs are ignored by Git. The required full pair-metrics CSV is included despite its size; the remaining generated extracts can be regenerated with the Python commands above.
 - The local Git repository is initialized on `main`, tracks `origin/main`, and is published at the repository URL shown above.

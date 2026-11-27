@@ -21,7 +21,8 @@ Generated after the baseline rerun, GitHub Actions Oracle run, and final QA pass
 | Oracle transform and pair query | Complete | [`sql/05_transform_clean.sql`](../sql/05_transform_clean.sql), [`sql/06_pair_queries.sql`](../sql/06_pair_queries.sql) |
 | Oracle analytical views | Complete | [`sql/07_create_views.sql`](../sql/07_create_views.sql) |
 | SQL/Python reconciliation execution | Complete | [`reports/sql_python_reconciliation.md`](sql_python_reconciliation.md), [`outputs/oracle_pair_metrics.csv`](../outputs/oracle_pair_metrics.csv); GitHub Actions run [45988078788](https://github.com/krishporwal011/Bussiness-BI/actions/runs/45988078788) matched 347,481 of 347,481 pairs |
-| Power BI `.pbix` | Pending | [`powerbi/market_basket_analysis.pbix.NOT_CREATED.md`](../powerbi/market_basket_analysis.pbix.NOT_CREATED.md); macOS with no accessible Windows Power BI environment |
+| GitHub Pages live dashboard | Pending deployment | [`dashboard/index.html`](../dashboard/index.html), [Pages workflow](../.github/workflows/pages.yml); static interactive dashboard for the macOS deliverable |
+| Power BI `.pbix` | Out of scope | [`powerbi/market_basket_analysis.pbix.NOT_CREATED.md`](../powerbi/market_basket_analysis.pbix.NOT_CREATED.md); GitHub Pages dashboard is the live replacement for this macOS deliverable |
 | Power BI implementation package | Complete | [`powerbi/README.md`](../powerbi/README.md), [`powerbi/dax_measures.dax`](../powerbi/dax_measures.dax) |
 | Data-quality report | Complete | [`reports/data_quality_report.md`](../reports/data_quality_report.md) |
 | Insights summary | Complete | [`reports/insights_summary.md`](../reports/insights_summary.md) |
@@ -40,5 +41,4 @@ Generated after the baseline rerun, GitHub Actions Oracle run, and final QA pass
 
 ## Remaining manual steps
 
-1. Build/save `powerbi/market_basket_analysis.pbix` in Power BI Desktop using the supplied M/DAX/model package; this remains blocked by the current macOS-only environment.
-2. Optional: migrate the 54 MB pair-metrics file to Git LFS later if repository storage policy requires it; the current push succeeded with GitHub's large-file recommendation warning.
+1. Optional: migrate the 54 MB pair-metrics file to Git LFS later if repository storage policy requires it; the current push succeeded with GitHub's large-file recommendation warning.

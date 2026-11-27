@@ -1,0 +1,241 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Interactive market basket analysis dashboard for UCI Online Retail." />
+    <title>Market Basket Intelligence</title>
+    <link rel="preconnect" href="https://cdn.plot.ly" />
+    <script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
+    <style>
+      :root {
+        --ink: #11263d;
+        --muted: #60748a;
+        --line: #d9e3eb;
+        --surface: #ffffff;
+        --canvas: #f3f7f9;
+        --teal: #0f766e;
+        --teal-soft: #d9f2ed;
+        --orange: #e8793f;
+        --orange-soft: #fff0e5;
+        --blue: #2f6fed;
+        --shadow: 0 18px 50px rgba(25, 56, 84, 0.08);
+      }
+
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        color: var(--ink);
+        background: var(--canvas);
+        font: 15px/1.55 Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      }
+      a { color: var(--teal); font-weight: 700; text-decoration: none; }
+      a:hover { text-decoration: underline; }
+      .shell { max-width: 1440px; margin: 0 auto; padding: 30px 28px 56px; }
+      .hero {
+        position: relative;
+        overflow: hidden;
+        color: #f6fbff;
+        background: linear-gradient(120deg, #112d48 0%, #174e61 62%, #0f766e 100%);
+        border-radius: 24px;
+        padding: 42px 46px 38px;
+        box-shadow: var(--shadow);
+      }
+      .hero::after {
+        content: "";
+        position: absolute;
+        width: 330px;
+        height: 330px;
+        right: -90px;
+        top: -120px;
+        border: 1px solid rgba(255,255,255,.16);
+        border-radius: 50%;
+        box-shadow: 0 0 0 34px rgba(255,255,255,.035), 0 0 0 68px rgba(255,255,255,.025);
+      }
+      .topline, .hero-meta, .section-head, .chart-heading, .footer-row { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+      .eyebrow { margin: 0 0 8px; color: var(--teal); font-size: 11px; font-weight: 800; letter-spacing: .16em; text-transform: uppercase; }
+      .hero .eyebrow { color: #9be2d5; }
+      h1, h2, h3, p { margin-top: 0; }
+      h1 { max-width: 720px; margin: 20px 0 14px; font-size: clamp(32px, 5vw, 62px); line-height: .99; letter-spacing: -.045em; }
+      h2 { margin-bottom: 8px; font-size: 25px; line-height: 1.12; letter-spacing: -.025em; }
+      h3 { margin-bottom: 2px; font-size: 17px; }
+      .hero-copy { max-width: 690px; color: #c5d9e5; font-size: 17px; }
+      .hero-meta { justify-content: flex-start; margin-top: 26px; color: #d9eef5; font-size: 13px; }
+      .status { display: inline-flex; align-items: center; gap: 7px; padding: 6px 11px; border-radius: 999px; color: #b8f0df; background: rgba(13, 102, 93, .45); border: 1px solid rgba(166, 241, 222, .24); font-size: 12px; font-weight: 800; letter-spacing: .05em; text-transform: uppercase; }
+      .status::before { width: 7px; height: 7px; border-radius: 50%; background: #8ef0c9; content: ""; }
+      .status.fail { color: #ffd6c1; background: rgba(180, 67, 28, .45); }
+      .status.fail::before { background: #ff9a6c; }
+      .section { margin-top: 34px; }
+      .section-head { align-items: flex-end; margin-bottom: 16px; }
+      .section-head p:not(.eyebrow) { max-width: 720px; margin-bottom: 0; color: var(--muted); }
+      .section-note { color: var(--muted); font-size: 12px; font-weight: 700; }
+      .kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-top: 22px; }
+      .kpi, .chart-card, .quality-card { background: var(--surface); border: 1px solid var(--line); border-radius: 17px; box-shadow: 0 8px 25px rgba(25, 56, 84, .035); }
+      .kpi { padding: 20px 21px 18px; }
+      .kpi-label { color: var(--muted); font-size: 12px; font-weight: 700; }
+      .kpi-value { margin: 4px 0 2px; color: var(--ink); font-size: 29px; font-weight: 800; letter-spacing: -.045em; }
+      .kpi-foot { color: var(--muted); font-size: 12px; }
+      .chart-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+      .chart-card { min-width: 0; padding: 20px 18px 10px; }
+      .chart-heading { align-items: flex-start; padding: 0 4px; }
+      .chart-heading p { margin: 0; color: var(--muted); font-size: 12px; }
+      .chart { min-height: 420px; }
+      .item-card { padding: 20px 18px 10px; }
+      .search { width: min(340px, 100%); padding: 10px 13px; color: var(--ink); background: #f6fafb; border: 1px solid var(--line); border-radius: 10px; outline: none; font: inherit; }
+      .search:focus { border-color: var(--teal); box-shadow: 0 0 0 3px rgba(15,118,110,.12); }
+      .quality-grid { display: grid; grid-template-columns: 1.1fr 1fr 1fr; gap: 18px; }
+      .quality-card { padding: 22px; }
+      .quality-card p { color: var(--muted); }
+      .quality-list { display: grid; gap: 10px; margin: 18px 0 0; }
+      .quality-row { display: flex; justify-content: space-between; gap: 18px; padding-bottom: 9px; border-bottom: 1px solid #edf2f5; }
+      .quality-row span:first-child { color: var(--muted); }
+      .quality-row strong { text-align: right; }
+      .method { color: var(--muted); font-size: 13px; }
+      .method strong { color: var(--ink); }
+      .footer-row { align-items: flex-start; margin-top: 38px; padding-top: 18px; border-top: 1px solid var(--line); color: var(--muted); font-size: 12px; }
+      .footer-links { display: flex; flex-wrap: wrap; gap: 16px; }
+      .error { padding: 18px; color: #9a3412; background: #fff7ed; border: 1px solid #fed7aa; border-radius: 12px; }
+      @media (max-width: 1050px) {
+        .kpi-grid { grid-template-columns: repeat(2, 1fr); }
+        .quality-grid { grid-template-columns: 1fr 1fr; }
+        .quality-card:first-child { grid-column: span 2; }
+      }
+      @media (max-width: 760px) {
+        .shell { padding: 14px 12px 34px; }
+        .hero { padding: 28px 24px; border-radius: 18px; }
+        .hero-meta, .section-head, .footer-row { align-items: flex-start; flex-direction: column; }
+        .kpi-grid, .chart-grid, .quality-grid { grid-template-columns: 1fr; }
+        .quality-card:first-child { grid-column: auto; }
+        .chart { min-height: 360px; }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="shell">
+      <header class="hero">
+        <div class="topline">
+          <p class="eyebrow">Retail decision cockpit</p>
+          <span class="status" id="reconStatus">Loading reconciliation</span>
+        </div>
+        <h1>Turn basket signals into merchandising moves.</h1>
+        <p class="hero-copy">A focused view of what shoppers buy together, which relationships are strong enough to test, and whether the analytical pipeline agrees across Python and Oracle.</p>
+        <div class="hero-meta">
+          <span>UCI Online Retail</span>
+          <span>•</span>
+          <span id="generatedAt">Loading data bundle…</span>
+        </div>
+      </header>
+
+      <section class="kpi-grid" aria-label="Key metrics">
+        <article class="kpi"><div class="kpi-label">Raw invoice lines</div><div class="kpi-value" data-kpi="raw_rows">—</div><div class="kpi-foot">Source workbook rows</div></article>
+        <article class="kpi"><div class="kpi-label">Valid baskets</div><div class="kpi-value" data-kpi="baskets">—</div><div class="kpi-foot">Distinct invoices retained</div></article>
+        <article class="kpi"><div class="kpi-label">Products</div><div class="kpi-value" data-kpi="products">—</div><div class="kpi-foot">Distinct merchandise items</div></article>
+        <article class="kpi"><div class="kpi-label">Qualifying pairs</div><div class="kpi-value" data-kpi="qualifying_pairs">—</div><div class="kpi-foot">Count/support thresholds applied</div></article>
+      </section>
+
+      <section class="section">
+        <div class="section-head">
+          <div><p class="eyebrow">Decision 01</p><h2>What should we bundle?</h2><p>Count shows repeatable demand. Lift highlights relationships that are unusually strong, even when the pair is niche.</p></div>
+          <span class="section-note">Unordered item pairs</span>
+        </div>
+        <div class="chart-grid">
+          <article class="chart-card"><div class="chart-heading"><div><h3>Top pairs by basket count</h3><p>Best starting point for bundle tests</p></div><span class="status">Count</span></div><div class="chart" id="countChart"></div></article>
+          <article class="chart-card"><div class="chart-heading"><div><h3>Top pairs by lift</h3><p>Strongest over-indexing relationships</p></div><span class="status" style="color:#ffd7c5;background:var(--orange-soft);border-color:#ffd4bc">Lift</span></div><div class="chart" id="liftChart"></div></article>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-head">
+          <div><p class="eyebrow">Decision 02</p><h2>Which products deserve attention?</h2><p>Search the most frequently appearing products to move from pair-level recommendations to assortment and placement decisions.</p></div>
+          <input class="search" id="itemSearch" type="search" placeholder="Search product name…" aria-label="Search product name" />
+        </div>
+        <article class="chart-card item-card"><div class="chart" id="itemChart"></div></article>
+      </section>
+
+      <section class="section">
+        <div class="section-head"><div><p class="eyebrow">Decision 03</p><h2>Can we trust the result?</h2><p>Quality and reconciliation signals keep the dashboard grounded in the same rules used by the Python and Oracle implementations.</p></div></div>
+        <div class="quality-grid">
+          <article class="quality-card"><h3>Cross-engine reconciliation</h3><p>Exact pair-key comparison with integer equality and a <strong>1e-9</strong> float tolerance.</p><div class="quality-list"><div class="quality-row"><span>Status</span><strong id="qualityStatus">—</strong></div><div class="quality-row"><span>Matching pairs</span><strong id="matchingPairs">—</strong></div><div class="quality-row"><span>Failed pairs</span><strong id="failedPairs">—</strong></div></div></article>
+          <article class="quality-card"><h3>Population</h3><div class="quality-list"><div class="quality-row"><span>Retained lines</span><strong data-kpi="retained_clean_lines">—</strong></div><div class="quality-row"><span>Presence rows</span><strong data-kpi="presence_rows">—</strong></div><div class="quality-row"><span>Single-item baskets</span><strong data-kpi="single_item_baskets">—</strong></div></div></article>
+          <article class="quality-card"><h3>Analysis rules</h3><div class="quality-list"><div class="quality-row"><span>Min item frequency</span><strong id="minFrequency">—</strong></div><div class="quality-row"><span>Min pair count</span><strong id="minPairCount">—</strong></div><div class="quality-row"><span>Min support</span><strong id="minSupport">—</strong></div></div></article>
+        </div>
+      </section>
+
+      <footer class="footer-row">
+        <span class="method"><strong>Method:</strong> one row per basket-item presence, unordered pairs, exact basket counts, support, confidence, and lift.</span>
+        <div class="footer-links"><a href="https://github.com/krishporwal011/Bussiness-BI" target="_blank" rel="noreferrer">Repository</a><a href="https://github.com/krishporwal011/Bussiness-BI/blob/main/reports/insights_summary.md" target="_blank" rel="noreferrer">Insights report</a><a href="https://github.com/krishporwal011/Bussiness-BI/blob/main/reports/sql_python_reconciliation.md" target="_blank" rel="noreferrer">Reconciliation</a></div>
+      </footer>
+    </main>
+
+    <script>
+      const numberFormat = new Intl.NumberFormat("en-IN");
+      const colors = { teal: "#0f766e", orange: "#e8793f", blue: "#2f6fed", ink: "#11263d", muted: "#60748a", grid: "#e8eef2" };
+      let dashboardData;
+
+      const fmt = (value) => numberFormat.format(Number(value || 0));
+      const pairLabel = (row) => `${row.item_a_name} + ${row.item_b_name}`;
+      const chartLayout = (height) => ({
+        height,
+        margin: { l: 245, r: 24, t: 8, b: 42 },
+        paper_bgcolor: "transparent",
+        plot_bgcolor: "transparent",
+        font: { family: "Inter, system-ui, sans-serif", color: colors.ink, size: 11 },
+        xaxis: { gridcolor: colors.grid, zeroline: false, title: "" },
+        yaxis: { automargin: true, fixedrange: true },
+        hoverlabel: { bgcolor: colors.ink, font: { color: "white" } },
+        showlegend: false
+      });
+
+      function drawPairChart(elementId, rows, metric, color, suffix) {
+        const ordered = [...rows].reverse();
+        Plotly.newPlot(elementId, [{
+          type: "bar",
+          orientation: "h",
+          y: ordered.map(pairLabel),
+          x: ordered.map((row) => Number(row[metric])),
+          marker: { color, line: { width: 0 } },
+          hovertemplate: `<b>%{y}</b><br>${suffix}: %{x:.3f}<extra></extra>`
+        }], chartLayout(438), { responsive: true, displayModeBar: false });
+      }
+
+      function drawItems(query = "") {
+        const normalized = query.trim().toUpperCase();
+        const filtered = dashboardData.item_frequency.filter((row) => row.item_name.toUpperCase().includes(normalized)).slice(0, 15).reverse();
+        Plotly.react("itemChart", [{
+          type: "bar",
+          orientation: "h",
+          y: filtered.map((row) => row.item_name),
+          x: filtered.map((row) => Number(row.basket_count)),
+          marker: { color: colors.blue },
+          hovertemplate: "<b>%{y}</b><br>Baskets: %{x:,}<extra></extra>"
+        }], { ...chartLayout(480), margin: { l: 300, r: 24, t: 8, b: 42 }, xaxis: { gridcolor: colors.grid, zeroline: false, title: "Basket count" } }, { responsive: true, displayModeBar: false });
+      }
+
+      function setDashboard(data) {
+        dashboardData = data;
+        Object.entries(data.kpis).forEach(([key, value]) => document.querySelectorAll(`[data-kpi="${key}"]`).forEach((node) => { node.textContent = fmt(value); }));
+        document.getElementById("generatedAt").textContent = `Generated ${new Date(data.generated_at).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" })}`;
+        const reconciliation = data.reconciliation;
+        const status = document.getElementById("reconStatus");
+        status.textContent = `Oracle ${reconciliation.status}`;
+        if (reconciliation.status !== "PASS") status.classList.add("fail");
+        document.getElementById("qualityStatus").textContent = reconciliation.status;
+        document.getElementById("matchingPairs").textContent = fmt(reconciliation.matching_pairs);
+        document.getElementById("failedPairs").textContent = fmt(reconciliation.failed_pairs);
+        document.getElementById("minFrequency").textContent = fmt(data.thresholds.min_item_frequency);
+        document.getElementById("minPairCount").textContent = fmt(data.thresholds.min_pair_count);
+        document.getElementById("minSupport").textContent = Number(data.thresholds.min_support).toFixed(3);
+        drawPairChart("countChart", data.count_pairs, "pair_count", colors.teal, "Baskets");
+        drawPairChart("liftChart", data.lift_pairs, "lift", colors.orange, "Lift");
+        drawItems();
+      }
+
+      fetch("data/dashboard_data.json")
+        .then((response) => { if (!response.ok) throw new Error(`Data bundle returned ${response.status}`); return response.json(); })
+        .then(setDashboard)
+        .catch((error) => { document.querySelector("main").insertAdjacentHTML("afterbegin", `<div class="error">Dashboard data could not be loaded: ${error.message}</div>`); });
+
+      document.getElementById("itemSearch").addEventListener("input", (event) => { if (dashboardData) drawItems(event.target.value); });
+    </script>
+  </body>
+</html>
