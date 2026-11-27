@@ -146,6 +146,7 @@ jobs:
           set echo off
           set termout off
           set trimspool on
+          set numformat TM9
           spool /tmp/market-basket/oracle_exports/oracle_pair_metrics.csv
           @/tmp/market-basket/sql/06_pair_queries.sql
           spool off
