@@ -7,6 +7,7 @@
     <title>Market Basket Intelligence</title>
     <link rel="preconnect" href="https://cdn.plot.ly" />
     <script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
+    <script src="data/dashboard_data.js"></script>
     <style>
       :root {
         --ink: #11263d;
@@ -230,10 +231,14 @@
         drawItems();
       }
 
-      fetch("data/dashboard_data.json")
-        .then((response) => { if (!response.ok) throw new Error(`Data bundle returned ${response.status}`); return response.json(); })
-        .then(setDashboard)
-        .catch((error) => { document.querySelector("main").insertAdjacentHTML("afterbegin", `<div class="error">Dashboard data could not be loaded: ${error.message}</div>`); });
+      if (window.DASHBOARD_DATA) {
+        setDashboard(window.DASHBOARD_DATA);
+      } else {
+        fetch("data/dashboard_data.json")
+          .then((response) => { if (!response.ok) throw new Error(`Data bundle returned ${response.status}`); return response.json(); })
+          .then(setDashboard)
+          .catch((error) => { document.querySelector("main").insertAdjacentHTML("afterbegin", `<div class="error">Dashboard data could not be loaded: ${error.message}</div>`); });
+      }
 
       document.getElementById("itemSearch").addEventListener("input", (event) => { if (dashboardData) drawItems(event.target.value); });
     </script>

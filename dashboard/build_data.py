@@ -69,8 +69,10 @@ def main() -> None:
         "rare_item_impact": json_records(ROOT / "outputs" / "rare_item_impact.csv"),
     }
     DATA_DIR.mkdir(parents=True, exist_ok=True)
-    (DATA_DIR / "dashboard_data.json").write_text(
-        json.dumps(data, indent=2, ensure_ascii=False) + "\n", encoding="utf-8"
+    payload = json.dumps(data, indent=2, ensure_ascii=False)
+    (DATA_DIR / "dashboard_data.json").write_text(payload + "\n", encoding="utf-8")
+    (DATA_DIR / "dashboard_data.js").write_text(
+        "window.DASHBOARD_DATA = " + payload + ";\n", encoding="utf-8"
     )
     print(f"Wrote {DATA_DIR / 'dashboard_data.json'}")
 
