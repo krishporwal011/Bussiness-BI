@@ -111,7 +111,7 @@ See [docs/kpi_definitions.md](docs/kpi_definitions.md) and [reports/data_quality
 
 ## Oracle setup and execution
 
-Oracle reconciliation was rechecked on 2026-11-26 and remains **PENDING**: no Oracle Database, SQL*Plus, SQLcl, SQL*Loader, `oracledb`/`cx_Oracle` driver, Docker/Podman runtime, or Oracle connection configuration was available. The SQL scripts are syntactically reviewed and logically aligned with Python but are not claimed as executed here.
+Oracle reconciliation was completed on 2026-11-27 in GitHub Actions run [45988078788](https://github.com/krishporwal011/Bussiness-BI/actions/runs/45988078788) on the standard `ubuntu-latest` runner. The workflow uses the public Docker Hub `gvenzl/oracle-free:full` image, an ephemeral masked password, and no Oracle Cloud, Oracle Container Registry login, paid service, or local Mac Docker storage.
 
 Run in this order in a target Oracle 19c-compatible schema:
 
@@ -135,7 +135,7 @@ Validation prerequisites are Oracle 19c/Free/XE (or an approved Oracle service),
 
 The reconciler compares pair keys, pair counts, basket counts, both item counts, support, both directional confidences, and lift. Integer counts must match exactly; floating metrics use an absolute tolerance of `1e-9`. Missing and extra pair keys are reported, and any mismatch causes a non-zero exit code.
 
-Current status: **PENDING**, because Oracle and a safe container/remote Oracle environment were unavailable. No `outputs/oracle_pair_metrics.csv` is fabricated. The generated [reconciliation report](reports/sql_python_reconciliation.md) records the blocker. After exporting `sql/06_pair_queries.sql` to CSV:
+Current status: **PASS**. Oracle produced the real [pair metrics export](outputs/oracle_pair_metrics.csv), and the [reconciliation report](reports/sql_python_reconciliation.md) compared 347,481 pair keys: 347,481 matched and 0 failed. The workflow fails on missing, extra, or mismatched pairs; floating metrics retain the existing absolute tolerance of `1e-9`.
 
 ```bash
 python src/reconcile_sql_python.py \
@@ -186,7 +186,6 @@ The project is published at the repository root on the authorized `main` branch.
 
 ## Known limitations and remaining user action
 
-- Run the Oracle scripts in an Oracle environment and export the query result to complete reconciliation.
 - Build and save `market_basket_analysis.pbix` in Power BI Desktop using the supplied specification.
 - The dataset is one historical retailer and should not be treated as causal or universally representative.
 - A fresh clone must obtain the public raw workbook separately because the raw file, SQL staging extract, and bulk cleaned CSVs are ignored by Git. The required full pair-metrics CSV is included despite its size; the remaining generated extracts can be regenerated with the Python commands above.

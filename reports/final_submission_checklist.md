@@ -1,6 +1,6 @@
 # Final submission checklist
 
-Generated after the baseline rerun and final QA pass.
+Generated after the baseline rerun, GitHub Actions Oracle run, and final QA pass.
 
 | Requirement | Status | Evidence |
 |---|---|---|
@@ -20,7 +20,7 @@ Generated after the baseline rerun and final QA pass.
 | Oracle staging load | Complete | [`sql/04_load_staging.sql`](../sql/04_load_staging.sql), [`sql/stg_transaction_line.ctl`](../sql/stg_transaction_line.ctl) |
 | Oracle transform and pair query | Complete | [`sql/05_transform_clean.sql`](../sql/05_transform_clean.sql), [`sql/06_pair_queries.sql`](../sql/06_pair_queries.sql) |
 | Oracle analytical views | Complete | [`sql/07_create_views.sql`](../sql/07_create_views.sql) |
-| SQL/Python reconciliation execution | Pending | [`reports/sql_python_reconciliation.md`](sql_python_reconciliation.md); no Oracle DB/client/driver/container or remote environment |
+| SQL/Python reconciliation execution | Complete | [`reports/sql_python_reconciliation.md`](sql_python_reconciliation.md), [`outputs/oracle_pair_metrics.csv`](../outputs/oracle_pair_metrics.csv); GitHub Actions run [45988078788](https://github.com/krishporwal011/Bussiness-BI/actions/runs/45988078788) matched 347,481 of 347,481 pairs |
 | Power BI `.pbix` | Pending | [`powerbi/market_basket_analysis.pbix.NOT_CREATED.md`](../powerbi/market_basket_analysis.pbix.NOT_CREATED.md); macOS with no accessible Windows Power BI environment |
 | Power BI implementation package | Complete | [`powerbi/README.md`](../powerbi/README.md), [`powerbi/dax_measures.dax`](../powerbi/dax_measures.dax) |
 | Data-quality report | Complete | [`reports/data_quality_report.md`](../reports/data_quality_report.md) |
@@ -34,11 +34,11 @@ Generated after the baseline rerun and final QA pass.
 
 - Python cleaning rerun: 541,909 raw rows, 522,537 retained lines, 19,773 baskets, 3,798 products, 517,287 presence rows.
 - Python analysis rerun: 347,481 qualifying pairs.
+- Oracle reconciliation: 347,481 matching pairs, 0 failed pairs, float tolerance `1e-9`; verified by GitHub Actions run [45988078788](https://github.com/krishporwal011/Bussiness-BI/actions/runs/45988078788).
 - Unit tests: 5 passed.
 - Formula/grain checks: passed; no duplicate basket-item presence rows or symmetric pair keys.
 
 ## Remaining manual steps
 
-1. Provide an Oracle 19c/Free/XE environment and SQL*Plus/SQLcl plus SQL*Loader; execute the documented runbook and rerun reconciliation.
-2. Build/save `powerbi/market_basket_analysis.pbix` in Power BI Desktop using the supplied M/DAX/model package.
-3. Optional: migrate the 54 MB pair-metrics file to Git LFS later if repository storage policy requires it; the current push succeeded with GitHub's large-file recommendation warning.
+1. Build/save `powerbi/market_basket_analysis.pbix` in Power BI Desktop using the supplied M/DAX/model package; this remains blocked by the current macOS-only environment.
+2. Optional: migrate the 54 MB pair-metrics file to Git LFS later if repository storage policy requires it; the current push succeeded with GitHub's large-file recommendation warning.
