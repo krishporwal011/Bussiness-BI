@@ -146,7 +146,22 @@ python src/reconcile_sql_python.py \
 
 ## Live dashboard
 
-The live dashboard is published at [krishporwal011.github.io/Bussiness-BI](https://krishporwal011.github.io/Bussiness-BI/). It is a static, interactive GitHub Pages dashboard built from the verified Python outputs and Oracle reconciliation status. It answers three questions: which pairs should be bundled, which products deserve attention, and whether the cross-engine result is trustworthy. The deployment workflow is [`.github/workflows/pages.yml`](.github/workflows/pages.yml), and the dashboard source is [`dashboard/index.html`](dashboard/index.html).
+The live demo is available at [krishporwal011.github.io/Bussiness-BI](https://krishporwal011.github.io/Bussiness-BI/).
+
+### Demo links
+
+- **GitHub Pages live dashboard:** [Open live demo](https://krishporwal011.github.io/Bussiness-BI/)
+- **Power BI Service report:** [Open Market Basket Analysis Dashboard](https://app.powerbi.com/groups/me/reports/f3b6d1a8-4352-48ce-ac15-9ac82f37b844/a361debbb237bbac3100?experience=power-bi)
+- **Reconciliation evidence:** [Open SQL/Python reconciliation report](reports/sql_python_reconciliation.md)
+- **Latest Pages deployment:** [Successful GitHub Actions run](https://github.com/krishporwal011/Bussiness-BI/actions/runs/46138119984)
+
+The GitHub Pages site is an interactive static dashboard built from the verified Python outputs and Oracle reconciliation status. Its primary report card uses Power BI's secure `reportEmbed` endpoint and opens the five-page Power BI Service report for signed-in users with report permission. Anonymous visitors see Microsoft's sign-in prompt because the current ABES tenant has not enabled **Publish to web**. This is an access-policy limitation, not a missing or fabricated embed URL.
+
+![Live Power BI dashboard demo](docs/live_dashboard.png)
+
+_Live screenshot captured from the deployed GitHub Pages URL on 2026-11-28. The screenshot shows the Power BI Service embed and the sign-in requirement; the verified interactive fallback metrics continue below the report card._
+
+The deployment workflow is [`.github/workflows/pages.yml`](.github/workflows/pages.yml), and the dashboard source is [`dashboard/index.html`](dashboard/index.html).
 
 This browser dashboard is the deliverable for the current macOS workflow. It is not a `.pbix` file and does not require Power BI Desktop.
 
