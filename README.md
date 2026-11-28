@@ -14,6 +14,53 @@ The UCI workbook contains 541,909 raw invoice lines. With the default rules, the
 
 See [reports/insights_summary.md](reports/insights_summary.md) for the full generated tables and observed-fact/recommendation separation.
 
+## Streamlit dashboard (primary public dashboard)
+
+A native **Streamlit + Plotly** dashboard now replaces the Power BI embed as the primary public dashboard. It opens directly in the browser: **no Microsoft sign-in, Power BI licence, Oracle connection, or raw UCI workbook is needed.** It reads only files already committed to this repository.
+
+- **Dashboard URL:** `https://<your-app-name>.streamlit.app` _(placeholder: replace after deploying; see below)_
+- **Main file path for deployment:** `streamlit_app/app.py`
+- **Dependencies:** [`streamlit_app/requirements.txt`](streamlit_app/requirements.txt) (Streamlit, Plotly, pandas, NumPy, openpyxl only)
+
+### Features
+
+| Section | What it shows |
+|---|---|
+| Executive Overview | Headline KPI cards, top pair by count and by lift, monthly baskets and revenue, top products, baskets by country, Oracle/Python reconciliation status |
+| Transaction & Basket KPIs | Average/median basket size, single-item share, basket value, basket-size distribution, monthly trend, country table (country and date filters) |
+| Product Analysis | Rank products by baskets, units or revenue; frequency tiers; frequency-vs-revenue scatter; searchable product table; rare-item toggle |
+| Top 10 Frequent Item Pairs | Count-ranked pairs with support, both confidences and lift; cross-checked against `outputs/python_top_10_pairs.csv` |
+| Top 10 Pairs by Lift | Lift-ranked pairs shown with their (small) pair counts; cross-checked against `outputs/python_lift_top_10_pairs.csv` |
+| Support & Confidence | Support and lift distributions, A→B vs B→A confidence scatter, directional rules table |
+| Interactive Pair Analysis | Pick an anchor product, rank its partners, open any pair for the 2×2 basket breakdown and observed-vs-expected co-occurrence |
+| Data Quality Overview | Raw-to-retained bridge, primary exclusion reasons, quality flags, rare-item impact, reconciliation result, live formula checks over all 347,481 pairs |
+
+**Sidebar filters** (apply to the pair-based sections): product (multi-select, either/both items), pair search, minimum pair count, minimum support, minimum lift, minimum confidence (both directions), and a Reset button. The basket page has its own country and date filters. Charts and tables are interactive, and the app follows the viewer's light/dark theme.
+
+**Data accuracy.** No metric is computed from assumptions or invented. Pair metrics come from `outputs/python_pair_metrics.csv`; headline KPIs, product revenue/quantity, basket summaries and data-quality counts come from `powerbi/market_basket_dashboard_data.xlsx` (itself generated from the Python outputs), with `dashboard/data/dashboard_data.json` as a KPI fallback. Ranking and filtering reuse the documented rules in [docs/kpi_definitions.md](docs/kpi_definitions.md). The pipeline and Oracle SQL are unchanged. If a file is missing the app degrades gracefully (full pair table → 200-pair workbook subset → top-10 CSVs) and says which source it is using.
+
+### Run locally
+
+From the repository root:
+
+```bash
+python3 -m venv .venv && source .venv/bin/activate
+python -m pip install -r streamlit_app/requirements.txt
+streamlit run streamlit_app/app.py
+```
+
+Then open <http://localhost:8501>. All paths are resolved relative to the repository root, so it can be started from any directory.
+
+### Deploy on Streamlit Community Cloud
+
+1. Push the `streamlit_app/` folder, `.streamlit/config.toml` and the updated `README.md` to the `main` branch of `krishporwal011/Bussiness-BI`. Make sure `outputs/python_pair_metrics.csv` is still tracked (it is matched by `.gitignore` but force-tracked; check with `git ls-files outputs/python_pair_metrics.csv`).
+2. Go to [share.streamlit.io](https://share.streamlit.io) and sign in with GitHub, then choose **Create app → Deploy a public app from GitHub**.
+3. Repository: `krishporwal011/Bussiness-BI` · Branch: `main` · **Main file path: `streamlit_app/app.py`**.
+4. Under **Advanced settings** pick Python 3.11 or newer (3.12 is fine). Streamlit Cloud installs `streamlit_app/requirements.txt` because it sits next to the main file. No secrets are required.
+5. Click **Deploy**, wait for the build, then copy the `*.streamlit.app` URL into the placeholder above.
+
+> The repository root also contains an older `app.py` that only embeds the Power BI report. It is kept for history and is **not** the dashboard; always deploy `streamlit_app/app.py`.
+
 ## Dataset source and license
 
 - Dataset: UCI Online Retail.
@@ -32,7 +79,7 @@ config/       Thresholds and dataset configuration
 data/raw/     Unmodified source workbook (local, ignored)
 data/cleaned/ Clean transaction, presence, basket, product, and quality tables
 data/derived/ Normalized SQL staging CSV (local, ignored)
-dashboard/    Static GitHub Pages dashboard and browser data bundle
+dashboard/    Static GitHub Pages dashboard and browser data bundle (historical/optional)
 docs/         Research, KPI definitions, and data-model diagram
 notebooks/    Cleaning and association-analysis walkthroughs
 outputs/      Python pair metrics, top-10 outputs, frequency and impact tables
@@ -40,6 +87,8 @@ powerbi/      Power Query, DAX, model, and dashboard build specification
 reports/      Data quality, insights, and SQL/Python reconciliation reports
 sql/          Oracle 19c-compatible schema, load, transform, views, and validation
 src/          Command-line cleaning, analysis, and reconciliation programs
+streamlit_app/ Streamlit + Plotly dashboard (primary public dashboard) and its requirements.txt
+.streamlit/   Streamlit theme/server config
 tests/        Automated unit tests for pair grain and denominator behavior
 ```
 
@@ -144,7 +193,9 @@ python src/reconcile_sql_python.py \
   --sql oracle_exports/oracle_pair_metrics.csv
 ```
 
-## Live dashboard
+## Historical dashboard: GitHub Pages and Power BI embed
+
+_Superseded by the [Streamlit dashboard](#streamlit-dashboard-primary-public-dashboard) above, which needs no Microsoft sign-in. The GitHub Pages site and Power BI material below are preserved unchanged as historical/optional components._
 
 The live demo is available at [krishporwal011.github.io/Bussiness-BI](https://krishporwal011.github.io/Bussiness-BI/).
 
@@ -200,7 +251,7 @@ python -m json.tool notebooks/02_association_rules.ipynb >/dev/null
 
 The unit tests verify that duplicate lines do not inflate a pair and that a single-item basket remains in the support denominator. The notebooks are executable walkthroughs of the two Python stages.
 
-The final audit is in [reports/final_submission_checklist.md](reports/final_submission_checklist.md). The current suite has 5 passing tests, including threshold behavior, formula checks, deterministic ordering, no reverse-pair duplication, and visible reconciliation failure behavior.
+The final audit is in [reports/final_submission_checklist.md](reports/final_submission_checklist.md). The pipeline suite has 5 passing tests, including threshold behavior, formula checks, deterministic ordering, no reverse-pair duplication, and visible reconciliation failure behavior. `tests/test_streamlit_dashboard.py` adds 31 dashboard tests (KPI values and top-10 tables versus the committed outputs, formula integrity over all pairs, filters and empty results, missing-file fallbacks, deployment-safety checks, and every page rendered through Streamlit's `AppTest`). The UI tests skip automatically unless `pip install -r streamlit_app/requirements.txt` has been run.
 
 ## GitHub publication
 
