@@ -1,0 +1,9 @@
+# Theme base is intentionally NOT forced: the app follows the viewer's light/dark setting.
+[theme]
+primaryColor = "#0D9488"
+
+[server]
+headless = true
+
+[browser]
+gatherUsageStats = false
