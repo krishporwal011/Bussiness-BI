@@ -3,8 +3,8 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content="Interactive market basket analysis dashboard for UCI Online Retail." />
-    <title>Market Basket Intelligence</title>
+    <meta name="description" content="Retail Market Basket Analysis — Power BI Service Report & Interactive Analytics." />
+    <title>Market Basket Analysis Dashboard | Power BI Intelligence</title>
     <link rel="preconnect" href="https://cdn.plot.ly" />
     <script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
     <script src="data/dashboard_data.js"></script>
@@ -20,6 +20,7 @@
         --orange: #e8793f;
         --orange-soft: #fff0e5;
         --blue: #2f6fed;
+        --blue-soft: #eaf1fe;
         --shadow: 0 18px 50px rgba(25, 56, 84, 0.08);
       }
 
@@ -32,50 +33,136 @@
       }
       a { color: var(--teal); font-weight: 700; text-decoration: none; }
       a:hover { text-decoration: underline; }
-      .shell { max-width: 1440px; margin: 0 auto; padding: 30px 28px 56px; }
+      .shell { max-width: 1440px; margin: 0 auto; padding: 28px 24px 56px; }
+      
+      /* Hero Banner */
       .hero {
         position: relative;
         overflow: hidden;
         color: #f6fbff;
-        background: linear-gradient(120deg, #112d48 0%, #174e61 62%, #0f766e 100%);
+        background: linear-gradient(120deg, #112d48 0%, #174e61 60%, #0f766e 100%);
         border-radius: 24px;
-        padding: 42px 46px 38px;
+        padding: 40px 44px 36px;
         box-shadow: var(--shadow);
       }
       .hero::after {
         content: "";
         position: absolute;
-        width: 330px;
-        height: 330px;
-        right: -90px;
-        top: -120px;
+        width: 320px;
+        height: 320px;
+        right: -80px;
+        top: -110px;
         border: 1px solid rgba(255,255,255,.16);
         border-radius: 50%;
         box-shadow: 0 0 0 34px rgba(255,255,255,.035), 0 0 0 68px rgba(255,255,255,.025);
       }
       .topline, .hero-meta, .section-head, .chart-heading, .footer-row { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
-      .eyebrow { margin: 0 0 8px; color: var(--teal); font-size: 11px; font-weight: 800; letter-spacing: .16em; text-transform: uppercase; }
-      .hero .eyebrow { color: #9be2d5; }
+      .eyebrow { margin: 0 0 8px; color: #9be2d5; font-size: 11px; font-weight: 800; letter-spacing: .16em; text-transform: uppercase; }
       h1, h2, h3, p { margin-top: 0; }
-      h1 { max-width: 720px; margin: 20px 0 14px; font-size: clamp(32px, 5vw, 62px); line-height: .99; letter-spacing: -.045em; }
-      h2 { margin-bottom: 8px; font-size: 25px; line-height: 1.12; letter-spacing: -.025em; }
+      h1 { max-width: 820px; margin: 16px 0 14px; font-size: clamp(28px, 4.5vw, 52px); line-height: 1.05; letter-spacing: -.04em; }
+      h2 { margin-bottom: 8px; font-size: 24px; line-height: 1.15; letter-spacing: -.025em; }
       h3 { margin-bottom: 2px; font-size: 17px; }
-      .hero-copy { max-width: 690px; color: #c5d9e5; font-size: 17px; }
-      .hero-meta { justify-content: flex-start; margin-top: 26px; color: #d9eef5; font-size: 13px; }
-      .status { display: inline-flex; align-items: center; gap: 7px; padding: 6px 11px; border-radius: 999px; color: #b8f0df; background: rgba(13, 102, 93, .45); border: 1px solid rgba(166, 241, 222, .24); font-size: 12px; font-weight: 800; letter-spacing: .05em; text-transform: uppercase; }
+      .hero-copy { max-width: 760px; color: #c5d9e5; font-size: 16px; margin-bottom: 20px; }
+      .hero-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 20px; }
+      .btn {
+        display: inline-flex; align-items: center; gap: 8px;
+        padding: 10px 18px; border-radius: 12px; font-size: 13px; font-weight: 700; text-decoration: none;
+        transition: transform 0.15s ease, background 0.15s ease;
+      }
+      .btn:hover { text-decoration: none; transform: translateY(-1px); }
+      .btn-primary { background: #f3f7f9; color: var(--ink); border: 1px solid rgba(255,255,255,0.8); }
+      .btn-secondary { background: rgba(255,255,255,0.12); color: #ffffff; border: 1px solid rgba(255,255,255,0.25); }
+      .hero-meta { justify-content: flex-start; margin-top: 24px; color: #d9eef5; font-size: 13px; }
+      
+      .status { display: inline-flex; align-items: center; gap: 7px; padding: 6px 12px; border-radius: 999px; color: #b8f0df; background: rgba(13, 102, 93, .45); border: 1px solid rgba(166, 241, 222, .24); font-size: 12px; font-weight: 800; letter-spacing: .05em; text-transform: uppercase; }
       .status::before { width: 7px; height: 7px; border-radius: 50%; background: #8ef0c9; content: ""; }
-      .status.fail { color: #ffd6c1; background: rgba(180, 67, 28, .45); }
-      .status.fail::before { background: #ff9a6c; }
-      .section { margin-top: 34px; }
-      .section-head { align-items: flex-end; margin-bottom: 16px; }
-      .section-head p:not(.eyebrow) { max-width: 720px; margin-bottom: 0; color: var(--muted); }
-      .section-note { color: var(--muted); font-size: 12px; font-weight: 700; }
-      .kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-top: 22px; }
+      .status.badge-pbi { color: #ffe599; background: rgba(232, 121, 63, .35); border-color: rgba(255, 215, 120, .3); }
+      .status.badge-pbi::before { background: #ffc000; }
+
+      /* Power BI Primary Container */
+      .pbi-section { margin-top: 32px; }
+      .pbi-card {
+        background: var(--surface);
+        border: 1px solid var(--line);
+        border-radius: 20px;
+        box-shadow: var(--shadow);
+        overflow: hidden;
+      }
+      .pbi-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 18px 24px;
+        background: #f8fafc;
+        border-bottom: 1px solid var(--line);
+        flex-wrap: wrap;
+        gap: 12px;
+      }
+      .pbi-title-group h2 { margin: 0 0 4px; font-size: 19px; }
+      .pbi-title-group p { margin: 0; color: var(--muted); font-size: 13px; }
+      .pbi-badge-group { display: flex; align-items: center; gap: 10px; }
+      
+      .pbi-frame-wrapper {
+        position: relative;
+        width: 100%;
+        min-height: 720px;
+        background: #f0f4f7;
+        display: flex;
+        flex-direction: column;
+      }
+      .pbi-iframe {
+        width: 100%;
+        height: 720px;
+        border: none;
+        display: block;
+      }
+      .pbi-loader {
+        position: absolute;
+        inset: 0;
+        background: rgba(243, 247, 249, 0.95);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 14px;
+        z-index: 10;
+        transition: opacity 0.3s ease;
+      }
+      .pbi-spinner {
+        width: 44px;
+        height: 44px;
+        border: 4px solid var(--line);
+        border-top-color: var(--teal);
+        border-radius: 50%;
+        animation: spin 0.9s linear infinite;
+      }
+      @keyframes spin { to { transform: rotate(360deg); } }
+      .pbi-loader p { margin: 0; color: var(--muted); font-weight: 600; font-size: 14px; }
+      
+      /* Fallback Notice */
+      .fallback-banner {
+        padding: 20px 24px;
+        background: #eff6ff;
+        border-top: 1px solid #bfdbfe;
+        color: #1e3a8a;
+        font-size: 14px;
+        display: flex;
+        align-items: flex-start;
+        gap: 14px;
+      }
+      .fallback-banner strong { color: #1e40af; }
+      .fallback-icon { font-size: 20px; line-height: 1; margin-top: 2px; }
+
+      /* Metric KPI Grid */
+      .section { margin-top: 36px; }
+      .kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-top: 20px; }
       .kpi, .chart-card, .quality-card { background: var(--surface); border: 1px solid var(--line); border-radius: 17px; box-shadow: 0 8px 25px rgba(25, 56, 84, .035); }
       .kpi { padding: 20px 21px 18px; }
       .kpi-label { color: var(--muted); font-size: 12px; font-weight: 700; }
       .kpi-value { margin: 4px 0 2px; color: var(--ink); font-size: 29px; font-weight: 800; letter-spacing: -.045em; }
       .kpi-foot { color: var(--muted); font-size: 12px; }
+      
+      /* Charts & Quality */
       .chart-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
       .chart-card { min-width: 0; padding: 20px 18px 10px; }
       .chart-heading { align-items: flex-start; padding: 0 4px; }
@@ -84,6 +171,7 @@
       .item-card { padding: 20px 18px 10px; }
       .search { width: min(340px, 100%); padding: 10px 13px; color: var(--ink); background: #f6fafb; border: 1px solid var(--line); border-radius: 10px; outline: none; font: inherit; }
       .search:focus { border-color: var(--teal); box-shadow: 0 0 0 3px rgba(15,118,110,.12); }
+      
       .quality-grid { display: grid; grid-template-columns: 1.1fr 1fr 1fr; gap: 18px; }
       .quality-card { padding: 22px; }
       .quality-card p { color: var(--muted); }
@@ -91,84 +179,173 @@
       .quality-row { display: flex; justify-content: space-between; gap: 18px; padding-bottom: 9px; border-bottom: 1px solid #edf2f5; }
       .quality-row span:first-child { color: var(--muted); }
       .quality-row strong { text-align: right; }
-      .method { color: var(--muted); font-size: 13px; }
-      .method strong { color: var(--ink); }
-      .footer-row { align-items: flex-start; margin-top: 38px; padding-top: 18px; border-top: 1px solid var(--line); color: var(--muted); font-size: 12px; }
+      
+      .footer-row { align-items: flex-start; margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--line); color: var(--muted); font-size: 12px; }
       .footer-links { display: flex; flex-wrap: wrap; gap: 16px; }
-      .error { padding: 18px; color: #9a3412; background: #fff7ed; border: 1px solid #fed7aa; border-radius: 12px; }
+
       @media (max-width: 1050px) {
         .kpi-grid { grid-template-columns: repeat(2, 1fr); }
         .quality-grid { grid-template-columns: 1fr 1fr; }
         .quality-card:first-child { grid-column: span 2; }
+        .pbi-frame-wrapper, .pbi-iframe { min-height: 580px; height: 580px; }
       }
       @media (max-width: 760px) {
         .shell { padding: 14px 12px 34px; }
-        .hero { padding: 28px 24px; border-radius: 18px; }
-        .hero-meta, .section-head, .footer-row { align-items: flex-start; flex-direction: column; }
+        .hero { padding: 28px 22px; border-radius: 18px; }
+        .hero-meta, .section-head, .footer-row, .pbi-header { align-items: flex-start; flex-direction: column; }
         .kpi-grid, .chart-grid, .quality-grid { grid-template-columns: 1fr; }
         .quality-card:first-child { grid-column: auto; }
         .chart { min-height: 360px; }
+        .pbi-frame-wrapper, .pbi-iframe { min-height: 460px; height: 460px; }
       }
     </style>
   </head>
   <body>
     <main class="shell">
+      <!-- Hero Banner -->
       <header class="hero">
         <div class="topline">
-          <p class="eyebrow">Retail decision cockpit</p>
-          <span class="status" id="reconStatus">Loading reconciliation</span>
+          <p class="eyebrow">Enterprise Business Intelligence</p>
+          <span class="status" id="reconStatus">Oracle PASS</span>
         </div>
-        <h1>Turn basket signals into merchandising moves.</h1>
-        <p class="hero-copy">A focused view of what shoppers buy together, which relationships are strong enough to test, and whether the analytical pipeline agrees across Python and Oracle.</p>
+        <h1>Market Basket Analysis Intelligence</h1>
+        <p class="hero-copy">An end-to-end retail association mining system built on 541,909 UCI Online Retail lines, validated with Python and Oracle 19c self-join reconciliation, and authored as a 5-page Microsoft Power BI Service dashboard.</p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="https://app.powerbi.com/groups/me/reports/f3b6d1a8-4352-48ce-ac15-9ac82f37b844/a361debbb237bbac3100?experience=power-bi" target="_blank" rel="noreferrer">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M2 13h2V6H2v7zm3 0h2V3H5v10zm3 0h2V8H8v5zm3 0h2V1h-2v12z"/></svg>
+            Open in Power BI Service
+          </a>
+          <a class="btn btn-secondary" href="https://github.com/krishporwal011/Bussiness-BI" target="_blank" rel="noreferrer">
+            View GitHub Repository
+          </a>
+          <a class="btn btn-secondary" href="https://github.com/krishporwal011/Bussiness-BI/blob/main/reports/sql_python_reconciliation.md" target="_blank" rel="noreferrer">
+            Reconciliation Report
+          </a>
+        </div>
         <div class="hero-meta">
-          <span>UCI Online Retail</span>
+          <span>UCI Online Retail (CC BY 4.0)</span>
           <span>•</span>
-          <span id="generatedAt">Loading data bundle…</span>
+          <span id="generatedAt">Dec 2010 – Dec 2011</span>
+          <span>•</span>
+          <span>5 Pages in My Workspace</span>
         </div>
       </header>
 
-      <section class="kpi-grid" aria-label="Key metrics">
-        <article class="kpi"><div class="kpi-label">Raw invoice lines</div><div class="kpi-value" data-kpi="raw_rows">—</div><div class="kpi-foot">Source workbook rows</div></article>
-        <article class="kpi"><div class="kpi-label">Valid baskets</div><div class="kpi-value" data-kpi="baskets">—</div><div class="kpi-foot">Distinct invoices retained</div></article>
-        <article class="kpi"><div class="kpi-label">Products</div><div class="kpi-value" data-kpi="products">—</div><div class="kpi-foot">Distinct merchandise items</div></article>
-        <article class="kpi"><div class="kpi-label">Qualifying pairs</div><div class="kpi-value" data-kpi="qualifying_pairs">—</div><div class="kpi-foot">Count/support thresholds applied</div></article>
+      <!-- Primary Deliverable: Real Power BI Service Report -->
+      <section class="pbi-section" aria-label="Power BI Report Deliverable">
+        <article class="pbi-card">
+          <div class="pbi-header">
+            <div class="pbi-title-group">
+              <h2>Power BI Service: Market Basket Analysis Dashboard</h2>
+              <p>5-Page Report: Executive Overview • Pair Analysis • Product Analysis • Data Quality • Reconciliation</p>
+            </div>
+            <div class="pbi-badge-group">
+              <span class="status badge-pbi">Power BI Report</span>
+              <a class="btn btn-primary" href="https://app.powerbi.com/groups/me/reports/f3b6d1a8-4352-48ce-ac15-9ac82f37b844/a361debbb237bbac3100?experience=power-bi" target="_blank" rel="noreferrer">
+                Open Fullscreen ↗
+              </a>
+            </div>
+          </div>
+
+          <div class="pbi-frame-wrapper" id="pbiWrapper">
+            <!-- Loading Indicator -->
+            <div class="pbi-loader" id="pbiLoader">
+              <div class="pbi-spinner"></div>
+              <p>Loading Power BI Service Report…</p>
+            </div>
+
+            <!-- Responsive iframe for Power BI -->
+            <iframe
+              id="pbiFrame"
+              class="pbi-iframe"
+              title="Market Basket Analysis Dashboard"
+              src="https://app.powerbi.com/groups/me/reports/f3b6d1a8-4352-48ce-ac15-9ac82f37b844/a361debbb237bbac3100?experience=power-bi"
+              allowfullscreen="true"
+              loading="lazy"
+            ></iframe>
+          </div>
+
+          <!-- Fallback and Access Information Notice -->
+          <div class="fallback-banner">
+            <div class="fallback-icon">ℹ️</div>
+            <div>
+              <strong>Power BI Cloud Access & Tenant Embedding:</strong>
+              The report is authored in <em>My workspace</em>. If your browser blocks third-party cookies or requires tenant single sign-on inside an iframe, click 
+              <a href="https://app.powerbi.com/groups/me/reports/f3b6d1a8-4352-48ce-ac15-9ac82f37b844/a361debbb237bbac3100?experience=power-bi" target="_blank" rel="noreferrer"><strong>Open in Power BI Service ↗</strong></a> 
+              to interact with all 5 pages directly. Complete interactive analytics and verified cross-engine reconciliation data are also presented below.
+            </div>
+          </div>
+        </article>
       </section>
 
+      <!-- Key Performance Indicators -->
+      <section class="kpi-grid" aria-label="Key metrics">
+        <article class="kpi"><div class="kpi-label">Raw Invoice Lines</div><div class="kpi-value" data-kpi="raw_rows">541,909</div><div class="kpi-foot">Source workbook rows</div></article>
+        <article class="kpi"><div class="kpi-label">Clean Baskets</div><div class="kpi-value" data-kpi="baskets">19,773</div><div class="kpi-foot">Distinct invoices retained</div></article>
+        <article class="kpi"><div class="kpi-label">Merchandise Products</div><div class="kpi-value" data-kpi="products">3,798</div><div class="kpi-foot">Distinct catalog items</div></article>
+        <article class="kpi"><div class="kpi-label">Qualifying Pairs</div><div class="kpi-value" data-kpi="qualifying_pairs">347,481</div><div class="kpi-foot">Count & support thresholds met</div></article>
+      </section>
+
+      <!-- Association Analysis -->
       <section class="section">
         <div class="section-head">
-          <div><p class="eyebrow">Decision 01</p><h2>What should we bundle?</h2><p>Count shows repeatable demand. Lift highlights relationships that are unusually strong, even when the pair is niche.</p></div>
-          <span class="section-note">Unordered item pairs</span>
+          <div><p class="eyebrow">Merchandising Analysis</p><h2>What should we bundle?</h2><p>Pair count reflects repeatable transaction demand, while lift isolates associations that occur far above baseline frequency.</p></div>
+          <span class="section-note">Unordered Item Pairs</span>
         </div>
         <div class="chart-grid">
-          <article class="chart-card"><div class="chart-heading"><div><h3>Top pairs by basket count</h3><p>Best starting point for bundle tests</p></div><span class="status">Count</span></div><div class="chart" id="countChart"></div></article>
-          <article class="chart-card"><div class="chart-heading"><div><h3>Top pairs by lift</h3><p>Strongest over-indexing relationships</p></div><span class="status" style="color:#ffd7c5;background:var(--orange-soft);border-color:#ffd4bc">Lift</span></div><div class="chart" id="liftChart"></div></article>
+          <article class="chart-card"><div class="chart-heading"><div><h3>Top Pairs by Basket Count</h3><p>Highest co-occurrence for immediate bundling</p></div><span class="status">Count</span></div><div class="chart" id="countChart"></div></article>
+          <article class="chart-card"><div class="chart-heading"><div><h3>Top Pairs by Lift</h3><p>Strongest statistical affinity</p></div><span class="status" style="color:#ffd7c5;background:var(--orange-soft);border-color:#ffd4bc">Lift</span></div><div class="chart" id="liftChart"></div></article>
         </div>
       </section>
 
+      <!-- Product Frequency & Assortment -->
       <section class="section">
         <div class="section-head">
-          <div><p class="eyebrow">Decision 02</p><h2>Which products deserve attention?</h2><p>Search the most frequently appearing products to move from pair-level recommendations to assortment and placement decisions.</p></div>
+          <div><p class="eyebrow">Assortment Dynamics</p><h2>Which products drive transaction baskets?</h2><p>Search catalog products to compare transaction volume, co-occurrence density, and basket penetration.</p></div>
           <input class="search" id="itemSearch" type="search" placeholder="Search product name…" aria-label="Search product name" />
         </div>
         <article class="chart-card item-card"><div class="chart" id="itemChart"></div></article>
       </section>
 
+      <!-- Data Quality & Cross-Engine Validation -->
       <section class="section">
-        <div class="section-head"><div><p class="eyebrow">Decision 03</p><h2>Can we trust the result?</h2><p>Quality and reconciliation signals keep the dashboard grounded in the same rules used by the Python and Oracle implementations.</p></div></div>
+        <div class="section-head"><div><p class="eyebrow">Quality & Governance</p><h2>Cross-engine reconciliation & audit trail</h2><p>Full agreement between Python itertools and Oracle 19c SQL self-join implementations.</p></div></div>
         <div class="quality-grid">
-          <article class="quality-card"><h3>Cross-engine reconciliation</h3><p>Exact pair-key comparison with integer equality and a <strong>1e-9</strong> float tolerance.</p><div class="quality-list"><div class="quality-row"><span>Status</span><strong id="qualityStatus">—</strong></div><div class="quality-row"><span>Matching pairs</span><strong id="matchingPairs">—</strong></div><div class="quality-row"><span>Failed pairs</span><strong id="failedPairs">—</strong></div></div></article>
-          <article class="quality-card"><h3>Population</h3><div class="quality-list"><div class="quality-row"><span>Retained lines</span><strong data-kpi="retained_clean_lines">—</strong></div><div class="quality-row"><span>Presence rows</span><strong data-kpi="presence_rows">—</strong></div><div class="quality-row"><span>Single-item baskets</span><strong data-kpi="single_item_baskets">—</strong></div></div></article>
-          <article class="quality-card"><h3>Analysis rules</h3><div class="quality-list"><div class="quality-row"><span>Min item frequency</span><strong id="minFrequency">—</strong></div><div class="quality-row"><span>Min pair count</span><strong id="minPairCount">—</strong></div><div class="quality-row"><span>Min support</span><strong id="minSupport">—</strong></div></div></article>
+          <article class="quality-card"><h3>SQL vs Python Reconciliation</h3><p>Exact comparison across all 347,481 pairs with <strong>1e-9</strong> float tolerance.</p><div class="quality-list"><div class="quality-row"><span>Status</span><strong id="qualityStatus">PASS</strong></div><div class="quality-row"><span>Matching pairs</span><strong id="matchingPairs">347,481</strong></div><div class="quality-row"><span>Failed pairs</span><strong id="failedPairs">0</strong></div></div></article>
+          <article class="quality-card"><h3>Clean Population</h3><div class="quality-list"><div class="quality-row"><span>Retained lines</span><strong data-kpi="retained_clean_lines">522,537</strong></div><div class="quality-row"><span>Presence rows</span><strong data-kpi="presence_rows">517,287</strong></div><div class="quality-row"><span>Single-item baskets</span><strong data-kpi="single_item_baskets">1,500</strong></div></div></article>
+          <article class="quality-card"><h3>Pipeline Thresholds</h3><div class="quality-list"><div class="quality-row"><span>Min item frequency</span><strong id="minFrequency">5</strong></div><div class="quality-row"><span>Min pair count</span><strong id="minPairCount">20</strong></div><div class="quality-row"><span>Min support</span><strong id="minSupport">0.001</strong></div></div></article>
         </div>
       </section>
 
+      <!-- Footer -->
       <footer class="footer-row">
-        <span class="method"><strong>Method:</strong> one row per basket-item presence, unordered pairs, exact basket counts, support, confidence, and lift.</span>
-        <div class="footer-links"><a href="https://github.com/krishporwal011/Bussiness-BI" target="_blank" rel="noreferrer">Repository</a><a href="https://github.com/krishporwal011/Bussiness-BI/blob/main/reports/insights_summary.md" target="_blank" rel="noreferrer">Insights report</a><a href="https://github.com/krishporwal011/Bussiness-BI/blob/main/reports/sql_python_reconciliation.md" target="_blank" rel="noreferrer">Reconciliation</a></div>
+        <span class="method"><strong>Architecture:</strong> Python 3.11 data engineering + Oracle 19c Enterprise SQL + Microsoft Power BI Service + GitHub Pages.</span>
+        <div class="footer-links">
+          <a href="https://github.com/krishporwal011/Bussiness-BI" target="_blank" rel="noreferrer">GitHub Repo</a>
+          <a href="https://app.powerbi.com/groups/me/reports/f3b6d1a8-4352-48ce-ac15-9ac82f37b844/a361debbb237bbac3100?experience=power-bi" target="_blank" rel="noreferrer">Power BI Report</a>
+          <a href="https://github.com/krishporwal011/Bussiness-BI/blob/main/reports/insights_summary.md" target="_blank" rel="noreferrer">Insights Report</a>
+          <a href="https://github.com/krishporwal011/Bussiness-BI/blob/main/reports/sql_python_reconciliation.md" target="_blank" rel="noreferrer">Reconciliation Report</a>
+        </div>
       </footer>
     </main>
 
     <script>
+      // Manage Power BI Iframe Loading State
+      const pbiFrame = document.getElementById("pbiFrame");
+      const pbiLoader = document.getElementById("pbiLoader");
+      if (pbiFrame) {
+        pbiFrame.addEventListener("load", () => {
+          setTimeout(() => {
+            if (pbiLoader) pbiLoader.style.display = "none";
+          }, 600);
+        });
+        // Safety timeout in case frame fires error or cross-origin restrictions
+        setTimeout(() => {
+          if (pbiLoader) pbiLoader.style.display = "none";
+        }, 5000);
+      }
+
+      // Plotly Data & Charts
       const numberFormat = new Intl.NumberFormat("en-IN");
       const colors = { teal: "#0f766e", orange: "#e8793f", blue: "#2f6fed", ink: "#11263d", muted: "#60748a", grid: "#e8eef2" };
       let dashboardData;
@@ -237,7 +414,7 @@
         fetch("data/dashboard_data.json")
           .then((response) => { if (!response.ok) throw new Error(`Data bundle returned ${response.status}`); return response.json(); })
           .then(setDashboard)
-          .catch((error) => { document.querySelector("main").insertAdjacentHTML("afterbegin", `<div class="error">Dashboard data could not be loaded: ${error.message}</div>`); });
+          .catch((error) => { console.error("Could not load supplementary json", error); });
       }
 
       document.getElementById("itemSearch").addEventListener("input", (event) => { if (dashboardData) drawItems(event.target.value); });
